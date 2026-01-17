@@ -1,6 +1,15 @@
 # Pomodo - Lo-Fi Study Timer
 
-A beautiful, distraction-free Pomodoro timer that combines proven productivity techniques with a cozy, lo-fi aesthetic to create the perfect focus environment.
+**Version 1.1** | A beautiful, distraction-free Pomodoro timer that combines proven productivity techniques with a cozy, lo-fi aesthetic to create the perfect focus environment.
+
+## What's New in V1.1 🎉
+
+- **6 Visual Themes**: Switch between Cozy Study (default), Night City, Winter, Spring, Summer, and Fall themes
+- **Keyboard Shortcuts**: Control the timer with Space (start/pause), R (reset), and S (settings)
+- **Real-Time Clock**: Wall clock displays actual current time with moving hour and minute hands
+- **Theme-Specific Backgrounds**: Each theme features unique atmospheric elements (city skyline, sun rays, snowflakes, cherry blossoms, falling leaves)
+- **Enhanced Visuals**: Improved desk items including detailed coffee cup, cute cactus plant, and stacked books
+- **Better Legibility**: Fixed theme menu contrast for perfect readability across all themes
 
 ## The Problem
 
@@ -19,12 +28,21 @@ Pomodo is a single-page web application that helps you stay focused using the Po
 - Visual and audio notifications when timers complete
 
 ### Immersive Visual Experience
-- Cozy illustrated study room with animated elements
-- Steaming coffee cup animation
-- Moving wall clock
-- Rain animation during work sessions
+- **6 Beautiful Themes** with unique color schemes and atmospheres:
+  - ☕ **Cozy Study** (Default): Warm tones with gentle rain animation
+  - 🌙 **Night City**: Dark blue/purple with animated city skyline and glowing windows
+  - ❄️ **Winter**: Cool blues and whites with falling snowflakes
+  - 🌸 **Spring**: Soft pinks and purples with floating cherry blossoms
+  - ☀️ **Summer**: Bright oranges and yellows with rotating sun rays
+  - 🍂 **Fall**: Rich browns and autumn colors with tumbling leaves
+- Cozy illustrated study room with detailed desk items
+- Steaming coffee cup with realistic coffee liquid
+- Cute cactus plant in a terracotta pot
+- Stack of three colorful books
+- **Real-time wall clock** showing actual current time
+- Theme-specific background animations and atmospheric effects
 - Color palette shifts to signal breaks vs. work time
-- Smooth transitions between work and break modes
+- Smooth transitions between themes and modes
 
 ### Progress Tracking
 - Session counter shows where you are in the 4-session cycle
@@ -38,15 +56,25 @@ Pomodo is a single-page web application that helps you stay focused using the Po
 - Set long break duration
 - Toggle notifications on/off
 - Settings saved locally
+- **Switch themes** with the palette button (🎨)
+- Theme preferences persist across sessions
+
+### Keyboard Shortcuts ⌨️
+- **Space**: Start/Pause timer
+- **R**: Reset current timer
+- **S**: Open settings panel
+- Shortcuts work globally except when typing in input fields
 
 ## How to Use
 
 1. Open `index.html` in your web browser
-2. Click "Start" to begin your first 25-minute focus session
-3. Work until the timer completes and you're notified
-4. Take a 5-minute break when prompted
-5. After 4 work sessions, enjoy a 15-minute long break
-6. Click the settings gear icon to customize timer durations
+2. **Choose your theme** by clicking the 🎨 palette icon (6 themes available!)
+3. Click "Start" to begin your first 25-minute focus session (or press **Space**)
+4. Work until the timer completes and you're notified
+5. Take a 5-minute break when prompted
+6. After 4 work sessions, enjoy a 15-minute long break
+7. Click the ⚙️ settings icon to customize timer durations
+8. Use keyboard shortcuts for quick control: **Space** (start/pause), **R** (reset), **S** (settings)
 
 ## Technologies Used
 
@@ -91,9 +119,17 @@ Simply drag and drop the project folder into Netlify or Vercel for instant deplo
 - Completed sessions are marked with a different color
 - Cycle resets after the long break
 
-### Visual Modes
-- **Work Mode**: Dark, focused color scheme with subtle rain animation
-- **Break Mode**: Lighter, calming colors to encourage relaxation
+### Visual Themes & Modes
+- **6 Unique Themes**: Each with distinct color palettes and atmospheric animations
+  - Cozy Study: Classic lo-fi with rain
+  - Night City: Urban skyline with glowing windows
+  - Winter: Snowy atmosphere with falling snowflakes
+  - Spring: Cherry blossom garden vibes
+  - Summer: Bright sun with rotating rays
+  - Fall: Autumn colors with tumbling leaves
+- **Work Mode vs Break Mode**: Each theme has separate color schemes for focus time and breaks
+- **Theme Persistence**: Your selected theme is saved and restored on next visit
+- **Real-Time Clock**: Shows actual time on the wall clock in each theme
 - Smooth color transitions create a pleasant visual experience
 
 ### Notifications
@@ -146,12 +182,13 @@ Want to modify the app? Here's what you can easily change:
 ## Future Enhancement Ideas
 
 - Sound effects and lo-fi music integration
-- More visual themes (night mode, seasons, etc.)
 - Weekly/monthly statistics dashboard
 - Task list integration
 - Multiple preset timer configurations
 - Export statistics as CSV
 - Background sound options (rain, cafe, etc.)
+- Mobile app version (iOS/Android)
+- Pomodoro analytics and productivity insights
 
 ## Contributing
 
