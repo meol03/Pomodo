@@ -201,88 +201,70 @@ body.work-mode .rain-container::after {
     }
 }
 
-/* Night City - Skyline */
+/* Night City - Skyline (grid removed) */
 body.theme-night .ambiance-layer::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 250px;
+    height: 280px;
     background:
-        /* Tallest building - center */
-        linear-gradient(180deg, #0a0a1e 0%, #16213e 100%),
-        /* Left buildings */
-        linear-gradient(180deg, #12152a 0%, #1a1f35 100%),
-        linear-gradient(180deg, #0e0f20 0%, #181c30 100%),
-        linear-gradient(180deg, #0a0a1e 0%, #14172b 100%),
-        /* Right buildings */
-        linear-gradient(180deg, #0f1025 0%, #1b1e33 100%),
-        linear-gradient(180deg, #0b0c1f 0%, #151829 100%),
-        linear-gradient(180deg, #0d0e22 0%, #191c2f 100%);
+        /* Center tall building cluster */
+        linear-gradient(180deg, #1a2332 0%, #2a3a4f 50%, #1f2d3f 100%),
+        linear-gradient(180deg, #151f2e 0%, #253545 50%, #1a2635 100%),
+        /* Left side buildings */
+        linear-gradient(180deg, #182330 0%, #28384d 50%, #1d2b3d 100%),
+        linear-gradient(180deg, #121c28 0%, #1f2f42 50%, #172431 100%),
+        linear-gradient(180deg, #0e1820 0%, #1a2835 50%, #13202d 100%),
+        /* Right side buildings */
+        linear-gradient(180deg, #1a2432 0%, #293949 50%, #1e2d3e 100%),
+        linear-gradient(180deg, #131d2a 0%, #223240 50%, #182633 100%),
+        linear-gradient(180deg, #101a25 0%, #1d2d3c 50%, #152330 100%);
     background-position:
-        50% 100%,
-        20% 100%,
-        8% 100%,
-        2% 100%,
-        70% 100%,
-        85% 100%,
-        95% 100%;
+        48% 100%,
+        54% 100%,
+        22% 100%,
+        10% 100%,
+        3% 100%,
+        72% 100%,
+        84% 100%,
+        93% 100%;
     background-size:
-        18% 220px,
-        14% 140px,
-        12% 180px,
-        10% 100px,
-        16% 160px,
-        13% 200px,
-        11% 130px;
+        15% 240px,
+        12% 200px,
+        13% 180px,
+        11% 150px,
+        9% 110px,
+        14% 190px,
+        12% 220px,
+        10% 140px;
     background-repeat: no-repeat;
+    filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.15));
     z-index: 1;
 }
 
-/* City lights - lit windows */
+/* Subtle city glow (no grid) */
 body.theme-night .ambiance-layer::after {
     content: '';
     position: absolute;
-    bottom: 80px;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 170px;
+    height: 280px;
     background:
-        /* Windows for center building */
-        repeating-linear-gradient(0deg,
-            transparent 0px,
-            transparent 15px,
-            rgba(255, 193, 7, 0.8) 15px,
-            rgba(255, 193, 7, 0.8) 18px,
-            transparent 18px,
-            transparent 28px
-        ),
-        repeating-linear-gradient(90deg,
-            transparent 0px,
-            transparent 8px,
-            rgba(0, 212, 255, 0.7) 8px,
-            rgba(0, 212, 255, 0.7) 11px,
-            transparent 11px,
-            transparent 20px
-        );
-    background-position:
-        50% 0%,
-        50% 0%;
-    background-size:
-        18% 100%,
-        18% 100%;
+        radial-gradient(ellipse 400px 180px at 50% 100%, rgba(0, 212, 255, 0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 150px at 25% 100%, rgba(138, 43, 226, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 150px at 75% 100%, rgba(255, 193, 7, 0.05) 0%, transparent 70%);
     background-repeat: no-repeat;
-    opacity: 0.9;
-    animation: cityLights 5s ease-in-out infinite;
+    opacity: 0.8;
+    animation: cityGlow 8s ease-in-out infinite alternate;
     z-index: 2;
-    mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 
-@keyframes cityLights {
-    0%, 100% { opacity: 0.85; }
-    50% { opacity: 1; }
+@keyframes cityGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.9; }
 }
 
 /* Spring - Cherry Blossoms */
@@ -639,16 +621,7 @@ body.theme-fall .ambiance-layer::after {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.coffee-cup::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    width: 40px;
-    height: 8px;
-    background: rgba(101, 67, 33, 0.6);
-    border-radius: 50% 50% 0 0;
-}
+/* Coffee liquid surface removed for cleaner look */
 
 .steam {
     position: absolute;
@@ -698,7 +671,7 @@ body.theme-fall .ambiance-layer::after {
     align-items: center;
 }
 
-/* Succulent/cactus body */
+/* Terracotta pot */
 .plant::before {
     content: '';
     position: absolute;
@@ -706,36 +679,49 @@ body.theme-fall .ambiance-layer::after {
     left: 50%;
     transform: translateX(-50%);
     width: 38px;
-    height: 30px;
-    background: linear-gradient(135deg, #d4a574 0%, #c7956d 50%, #a67c52 100%);
-    border-radius: 0 0 14px 14px;
+    height: 28px;
+    background: linear-gradient(135deg, #d97555 0%, #c15d3f 50%, #a04d33 100%);
+    border-radius: 0 0 16px 16px;
     box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.2),
-        0 3px 8px rgba(0, 0, 0, 0.3);
+        inset 0 2px 6px rgba(255, 255, 255, 0.25),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+        0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Main cactus stem */
 .plant::after {
     content: '';
     position: absolute;
-    bottom: 12px;
-    width: 28px;
-    height: 50px;
-    background: linear-gradient(145deg, #4cd964 0%, #2ecc71 40%, #27ae60 100%);
-    border-radius: 14px 14px 8px 8px;
+    bottom: 10px;
+    width: 26px;
+    height: 52px;
+    background:
+        /* Vertical ridges */
+        repeating-linear-gradient(90deg,
+            transparent 0px,
+            transparent 5px,
+            rgba(0, 0, 0, 0.08) 5px,
+            rgba(0, 0, 0, 0.08) 6px,
+            transparent 6px,
+            transparent 11px
+        ),
+        /* Base color */
+        linear-gradient(145deg, #5cd97c 0%, #3ddb6f 30%, #2ecc71 60%, #27ae60 100%);
+    border-radius: 13px 13px 6px 6px;
     box-shadow:
-        inset -2px 0 6px rgba(0, 0, 0, 0.2),
-        inset 2px 0 6px rgba(255, 255, 255, 0.15),
-        0 3px 8px rgba(0, 0, 0, 0.2);
+        inset -3px 0 8px rgba(0, 0, 0, 0.15),
+        inset 3px 0 8px rgba(255, 255, 255, 0.2),
+        0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Left cactus arm */
+/* Cactus arms */
 .plant {
     background:
-        radial-gradient(ellipse 12px 18px at 8px 35px, #2ecc71 0%, #27ae60 100%);
+        /* Left arm */
+        radial-gradient(ellipse 10px 16px at 7px 38px, #3ddb6f 0%, #2ecc71 60%, #27ae60 100%),
+        /* Right arm */
+        radial-gradient(ellipse 10px 16px at 38px 42px, #3ddb6f 0%, #2ecc71 60%, #27ae60 100%);
     background-repeat: no-repeat;
-    box-shadow:
-        inset -1px 0 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Right cactus arm - using a pseudo element on a child would be better, but working with what we have */
