@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pomodo Test</title>
+</head>
+<body>
+    <h1>JavaScript Test</h1>
+    <button id="testBtn">Click Me</button>
+    <p id="output">Waiting...</p>
+
+    <script>
+        // Test if JavaScript is working
+        document.getElementById('output').textContent = 'JavaScript is loading...';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('output').textContent = 'DOMContentLoaded fired!';
+
+            document.getElementById('testBtn').addEventListener('click', () => {
+                alert('Button clicked! JavaScript is working.');
+            });
+        });
+    </script>
+</body>
+</html>
