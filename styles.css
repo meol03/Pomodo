@@ -40,78 +40,88 @@ body.break-mode {
 }
 
 /* Theme: Night City */
-body.theme-night {
-    --work-bg-primary: #1a1a2e;
-    --work-bg-secondary: #16213e;
-    --work-accent: #00d4ff;
-    --work-text: #e4e4e4;
-    --work-highlight: #ff6b9d;
+body.theme-night.work-mode {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --accent: #00d4ff;
+    --text-color: #e4e4e4;
+    --highlight: #ff6b9d;
+}
 
-    --break-bg-primary: #0f3460;
-    --break-bg-secondary: #533483;
-    --break-accent: #00d4ff;
-    --break-text: #e4e4e4;
-    --break-highlight: #ff6b9d;
+body.theme-night.break-mode {
+    --bg-primary: #0f3460;
+    --bg-secondary: #533483;
+    --accent: #00d4ff;
+    --text-color: #e4e4e4;
+    --highlight: #ff6b9d;
 }
 
 /* Theme: Winter */
-body.theme-winter {
-    --work-bg-primary: #d4e4f7;
-    --work-bg-secondary: #a8c5e2;
-    --work-accent: #5d9cec;
-    --work-text: #2c3e50;
-    --work-highlight: #ac92ec;
+body.theme-winter.work-mode {
+    --bg-primary: #d4e4f7;
+    --bg-secondary: #a8c5e2;
+    --accent: #5d9cec;
+    --text-color: #2c3e50;
+    --highlight: #ac92ec;
+}
 
-    --break-bg-primary: #e8f4f8;
-    --break-bg-secondary: #b8d4e8;
-    --break-accent: #4fc3f7;
-    --break-text: #2c3e50;
-    --break-highlight: #ac92ec;
+body.theme-winter.break-mode {
+    --bg-primary: #e8f4f8;
+    --bg-secondary: #b8d4e8;
+    --accent: #4fc3f7;
+    --text-color: #2c3e50;
+    --highlight: #ac92ec;
 }
 
 /* Theme: Spring */
-body.theme-spring {
-    --work-bg-primary: #fce4ec;
-    --work-bg-secondary: #f8bbd0;
-    --work-accent: #ff80ab;
-    --work-text: #4a148c;
-    --work-highlight: #69f0ae;
+body.theme-spring.work-mode {
+    --bg-primary: #fce4ec;
+    --bg-secondary: #f8bbd0;
+    --accent: #ff80ab;
+    --text-color: #4a148c;
+    --highlight: #69f0ae;
+}
 
-    --break-bg-primary: #f3e5f5;
-    --break-bg-secondary: #ce93d8;
-    --break-accent: #ea80fc;
-    --break-text: #4a148c;
-    --break-highlight: #69f0ae;
+body.theme-spring.break-mode {
+    --bg-primary: #f3e5f5;
+    --bg-secondary: #ce93d8;
+    --accent: #ea80fc;
+    --text-color: #4a148c;
+    --highlight: #69f0ae;
 }
 
 /* Theme: Summer */
-body.theme-summer {
-    --work-bg-primary: #fff3e0;
-    --work-bg-secondary: #ffe0b2;
-    --work-accent: #ff9800;
-    --work-text: #3e2723;
-    --work-highlight: #00bfa5;
+body.theme-summer.work-mode {
+    --bg-primary: #fff3e0;
+    --bg-secondary: #ffe0b2;
+    --accent: #ff9800;
+    --text-color: #3e2723;
+    --highlight: #00bfa5;
+}
 
-    --break-bg-primary: #fff8e1;
-    --break-bg-secondary: #ffecb3;
-    --break-accent: #ffc107;
-    --break-text: #3e2723;
-    --break-highlight: #00bfa5;
+body.theme-summer.break-mode {
+    --bg-primary: #fff8e1;
+    --bg-secondary: #ffecb3;
+    --accent: #ffc107;
+    --text-color: #3e2723;
+    --highlight: #00bfa5;
 }
 
 /* Theme: Fall */
-body.theme-fall {
-    --work-bg-primary: #5d4037;
-    --work-bg-secondary: #8d6e63;
-    --work-accent: #ff6f00;
-    --work-text: #ffd54f;
-    --work-highlight: #d32f2f;
+body.theme-fall.work-mode {
+    --bg-primary: #5d4037;
+    --bg-secondary: #8d6e63;
+    --accent: #ff6f00;
+    --text-color: #ffd54f;
+    --highlight: #d32f2f;
+}
 
-    --break-bg-primary: #6d4c41;
-    --break-bg-secondary: #a1887f;
-    --break-accent: #ff8f00;
-    --break-text: #fff9c4;
-    --break-highlight: #d32f2f;
+body.theme-fall.break-mode {
+    --bg-primary: #6d4c41;
+    --bg-secondary: #a1887f;
+    --accent: #ff8f00;
+    --text-color: #fff9c4;
+    --highlight: #d32f2f;
 }
 
 * {
@@ -188,6 +198,261 @@ body.work-mode .rain-container::after {
     100% {
         top: 100%;
         opacity: 0.3;
+    }
+}
+
+/* Night City - Skyline */
+body.theme-night .ambiance-layer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    background:
+        /* Tallest building - center */
+        linear-gradient(180deg, #0a0a1e 0%, #16213e 100%),
+        /* Left buildings */
+        linear-gradient(180deg, #12152a 0%, #1a1f35 100%),
+        linear-gradient(180deg, #0e0f20 0%, #181c30 100%),
+        linear-gradient(180deg, #0a0a1e 0%, #14172b 100%),
+        /* Right buildings */
+        linear-gradient(180deg, #0f1025 0%, #1b1e33 100%),
+        linear-gradient(180deg, #0b0c1f 0%, #151829 100%),
+        linear-gradient(180deg, #0d0e22 0%, #191c2f 100%);
+    background-position:
+        50% 100%,
+        20% 100%,
+        8% 100%,
+        2% 100%,
+        70% 100%,
+        85% 100%,
+        95% 100%;
+    background-size:
+        18% 220px,
+        14% 140px,
+        12% 180px,
+        10% 100px,
+        16% 160px,
+        13% 200px,
+        11% 130px;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* City lights - lit windows */
+body.theme-night .ambiance-layer::after {
+    content: '';
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    height: 170px;
+    background:
+        /* Windows for center building */
+        repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 15px,
+            rgba(255, 193, 7, 0.8) 15px,
+            rgba(255, 193, 7, 0.8) 18px,
+            transparent 18px,
+            transparent 28px
+        ),
+        repeating-linear-gradient(90deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(0, 212, 255, 0.7) 8px,
+            rgba(0, 212, 255, 0.7) 11px,
+            transparent 11px,
+            transparent 20px
+        );
+    background-position:
+        50% 0%,
+        50% 0%;
+    background-size:
+        18% 100%,
+        18% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+    animation: cityLights 5s ease-in-out infinite;
+    z-index: 2;
+    mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+@keyframes cityLights {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+/* Spring - Cherry Blossoms */
+body.theme-spring .ambiance-layer::before {
+    content: '🌸';
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    font-size: 3rem;
+    opacity: 0.6;
+    animation: float 8s ease-in-out infinite;
+}
+
+body.theme-spring .ambiance-layer::after {
+    content: '🌸';
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    font-size: 2.5rem;
+    opacity: 0.5;
+    animation: float 10s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    66% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+}
+
+/* Winter - Snowflakes */
+body.theme-winter .ambiance-layer::before {
+    content: '❄️';
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    font-size: 2.5rem;
+    opacity: 0.7;
+    animation: snowfall 12s linear infinite;
+}
+
+body.theme-winter .ambiance-layer::after {
+    content: '❄️';
+    position: absolute;
+    top: 5%;
+    right: 30%;
+    font-size: 3rem;
+    opacity: 0.6;
+    animation: snowfall 15s linear infinite 3s;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Summer - Sun rays */
+body.theme-summer .ambiance-layer::before {
+    content: '';
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(255, 193, 7, 0.6) 0%, rgba(255, 152, 0, 0.4) 40%, transparent 70%);
+    box-shadow:
+        0 0 60px rgba(255, 193, 7, 0.5),
+        0 0 100px rgba(255, 152, 0, 0.3);
+    animation: sunPulse 4s ease-in-out infinite;
+}
+
+body.theme-summer .ambiance-layer::after {
+    content: '';
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 200px;
+    height: 200px;
+    background:
+        conic-gradient(
+            transparent 0deg,
+            rgba(255, 193, 7, 0.3) 10deg,
+            transparent 20deg,
+            transparent 40deg,
+            rgba(255, 193, 7, 0.3) 50deg,
+            transparent 60deg,
+            transparent 80deg,
+            rgba(255, 193, 7, 0.3) 90deg,
+            transparent 100deg,
+            transparent 120deg,
+            rgba(255, 193, 7, 0.3) 130deg,
+            transparent 140deg,
+            transparent 160deg,
+            rgba(255, 193, 7, 0.3) 170deg,
+            transparent 180deg,
+            transparent 200deg,
+            rgba(255, 193, 7, 0.3) 210deg,
+            transparent 220deg,
+            transparent 240deg,
+            rgba(255, 193, 7, 0.3) 250deg,
+            transparent 260deg,
+            transparent 280deg,
+            rgba(255, 193, 7, 0.3) 290deg,
+            transparent 300deg,
+            transparent 320deg,
+            rgba(255, 193, 7, 0.3) 330deg,
+            transparent 340deg
+        );
+    animation: rotateSun 20s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes sunPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateSun {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Fall - Falling leaves */
+body.theme-fall .ambiance-layer::before {
+    content: '🍂';
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    font-size: 2.5rem;
+    opacity: 0.6;
+    animation: leafFall 10s ease-in-out infinite;
+}
+
+body.theme-fall .ambiance-layer::after {
+    content: '🍁';
+    position: absolute;
+    top: 5%;
+    right: 25%;
+    font-size: 3rem;
+    opacity: 0.5;
+    animation: leafFall 12s ease-in-out infinite 2s;
+}
+
+@keyframes leafFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg) translateX(50px);
+        opacity: 0;
     }
 }
 
@@ -273,7 +538,7 @@ body.work-mode .rain-container::after {
     position: absolute;
     top: 60px;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: var(--spacing-sm);
@@ -297,7 +562,7 @@ body.work-mode .rain-container::after {
     padding: var(--spacing-sm);
     border: none;
     background: transparent;
-    color: var(--bg-primary);
+    color: #2d3436;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -312,14 +577,15 @@ body.work-mode .rain-container::after {
 }
 
 .theme-option:hover {
-    background: var(--accent);
-    color: white;
+    background: #fdcb6e;
+    color: #2d3436;
     transform: translateX(5px);
 }
 
 .theme-option.active {
-    background: var(--accent);
-    color: white;
+    background: #fdcb6e;
+    color: #2d3436;
+    font-weight: 700;
 }
 
 /* Study Room Illustration */
@@ -336,22 +602,28 @@ body.work-mode .rain-container::after {
     position: relative;
     width: 400px;
     height: 120px;
-    background: rgba(101, 84, 63, 0.6);
+    background: linear-gradient(135deg, rgba(139, 111, 71, 0.7) 0%, rgba(101, 84, 63, 0.8) 100%);
     border-radius: 10px 10px 0 0;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
     padding: var(--spacing-md);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    border-top: 2px solid rgba(199, 149, 109, 0.3);
 }
 
 .coffee-cup {
     position: relative;
     width: 60px;
     height: 70px;
-    background: linear-gradient(135deg, #c7956d 0%, #8b6f47 100%);
+    background: linear-gradient(135deg, #d4a574 0%, #a67c52 50%, #8b6f47 100%);
     border-radius: 0 0 30px 30px;
-    box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow:
+        inset 0 -5px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .coffee-cup::before {
@@ -361,9 +633,21 @@ body.work-mode .rain-container::after {
     right: -15px;
     width: 20px;
     height: 30px;
-    border: 3px solid #8b6f47;
+    border: 3px solid #a67c52;
     border-left: none;
     border-radius: 0 15px 15px 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.coffee-cup::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 40px;
+    height: 8px;
+    background: rgba(101, 67, 33, 0.6);
+    border-radius: 50% 50% 0 0;
 }
 
 .steam {
@@ -406,29 +690,63 @@ body.work-mode .rain-container::after {
 }
 
 .plant {
-    width: 50px;
-    height: 80px;
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-    border-radius: 50% 50% 0 0;
+    width: 45px;
+    height: 75px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Succulent/cactus body */
 .plant::before {
     content: '';
     position: absolute;
-    bottom: -20px;
+    bottom: -18px;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
-    height: 25px;
-    background: #c7956d;
-    border-radius: 0 0 10px 10px;
+    width: 38px;
+    height: 30px;
+    background: linear-gradient(135deg, #d4a574 0%, #c7956d 50%, #a67c52 100%);
+    border-radius: 0 0 14px 14px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        0 3px 8px rgba(0, 0, 0, 0.3);
 }
+
+/* Main cactus stem */
+.plant::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    width: 28px;
+    height: 50px;
+    background: linear-gradient(145deg, #4cd964 0%, #2ecc71 40%, #27ae60 100%);
+    border-radius: 14px 14px 8px 8px;
+    box-shadow:
+        inset -2px 0 6px rgba(0, 0, 0, 0.2),
+        inset 2px 0 6px rgba(255, 255, 255, 0.15),
+        0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Left cactus arm */
+.plant {
+    background:
+        radial-gradient(ellipse 12px 18px at 8px 35px, #2ecc71 0%, #27ae60 100%);
+    background-repeat: no-repeat;
+    box-shadow:
+        inset -1px 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Right cactus arm - using a pseudo element on a child would be better, but working with what we have */
 
 .books {
     width: 70px;
     height: 60px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .books::before,
@@ -436,19 +754,42 @@ body.work-mode .rain-container::after {
     content: '';
     position: absolute;
     width: 60px;
-    height: 20px;
-    background: var(--highlight);
-    border-radius: 2px;
+    height: 22px;
+    border-radius: 2px 4px 2px 0;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .books::before {
     top: 0;
-    background: #e74c3c;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    transform: rotate(-2deg);
+    z-index: 2;
 }
 
 .books::after {
-    top: 22px;
-    background: #3498db;
+    top: 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    transform: rotate(1deg);
+    width: 65px;
+    z-index: 1;
+}
+
+.book-3 {
+    position: absolute;
+    top: 40px;
+    left: 5px;
+    width: 58px;
+    height: 20px;
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border-radius: 2px 4px 2px 0;
+    transform: rotate(-1deg);
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .wall-clock {
@@ -457,10 +798,33 @@ body.work-mode .rain-container::after {
     right: 100px;
     width: 80px;
     height: 80px;
-    background: rgba(236, 240, 241, 0.9);
+    background: rgba(236, 240, 241, 0.95);
     border-radius: 50%;
     border: 5px solid var(--accent);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.8s ease;
+}
+
+/* Clock colors for different themes */
+body.theme-winter .wall-clock {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-spring .wall-clock {
+    background: rgba(255, 240, 245, 0.95);
+}
+
+body.theme-summer .wall-clock {
+    background: rgba(255, 248, 225, 0.95);
+}
+
+body.theme-fall .wall-clock {
+    background: rgba(255, 245, 238, 0.95);
+}
+
+body.theme-night .wall-clock {
+    background: rgba(30, 30, 50, 0.95);
+    border-color: #00d4ff;
 }
 
 .wall-clock::before {
@@ -471,9 +835,13 @@ body.work-mode .rain-container::after {
     transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
-    background: var(--bg-primary);
+    background: #2d3436;
     border-radius: 50%;
     z-index: 3;
+}
+
+body.theme-night .wall-clock::before {
+    background: #00d4ff;
 }
 
 .clock-hand {
@@ -481,33 +849,26 @@ body.work-mode .rain-container::after {
     bottom: 50%;
     left: 50%;
     transform-origin: bottom center;
-    background: var(--bg-primary);
+    background: #2d3436;
     border-radius: 10px 10px 0 0;
+    will-change: transform;
+}
+
+body.theme-night .clock-hand {
+    background: #00d4ff;
 }
 
 .clock-hand.hour {
     width: 4px;
     height: 22px;
     margin-left: -2px;
-    animation: rotate-hour 43200s linear infinite;
 }
 
 .clock-hand.minute {
     width: 3px;
     height: 30px;
     margin-left: -1.5px;
-    animation: rotate-minute 3600s linear infinite;
     z-index: 2;
-}
-
-@keyframes rotate-hour {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-minute {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 /* Timer Section */
