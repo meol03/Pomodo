@@ -327,7 +327,21 @@ class PomodoroTimer {
 
     loadTheme() {
         const savedTheme = localStorage.getItem('pomodoroTheme') || 'default';
-        this.changeTheme(savedTheme);
+
+        // Apply theme without showing message on initial load
+        document.body.classList.remove('theme-night', 'theme-winter', 'theme-spring', 'theme-summer', 'theme-fall');
+
+        if (savedTheme !== 'default') {
+            document.body.classList.add(`theme-${savedTheme}`);
+        }
+
+        // Update active state on buttons
+        this.themeOptions.forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.theme === savedTheme) {
+                option.classList.add('active');
+            }
+        });
     }
 
     showTemporaryMessage(message) {
