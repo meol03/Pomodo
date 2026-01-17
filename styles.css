@@ -201,6 +201,153 @@ body.work-mode .rain-container::after {
     }
 }
 
+/* Night City - Skyline */
+body.theme-night .ambiance-layer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+        rgba(10, 10, 30, 0.9) 0%,
+        rgba(20, 20, 40, 0.7) 50%,
+        transparent 100%
+    );
+    z-index: 1;
+}
+
+body.theme-night .ambiance-layer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 35%;
+    background:
+        linear-gradient(to right, transparent 0%, transparent 5%, rgba(26, 26, 46, 0.9) 5%, rgba(26, 26, 46, 0.9) 8%, transparent 8%, transparent 12%, rgba(20, 20, 40, 0.95) 12%, rgba(20, 20, 40, 0.95) 18%, transparent 18%, transparent 22%, rgba(26, 26, 46, 0.9) 22%, rgba(26, 26, 46, 0.9) 26%, transparent 26%, transparent 30%, rgba(22, 22, 42, 0.9) 30%, rgba(22, 22, 42, 0.9) 38%, transparent 38%, transparent 42%, rgba(26, 26, 46, 0.9) 42%, rgba(26, 26, 46, 0.9) 45%, transparent 45%, transparent 50%, rgba(20, 20, 40, 0.95) 50%, rgba(20, 20, 40, 0.95) 56%, transparent 56%, transparent 60%, rgba(26, 26, 46, 0.9) 60%, rgba(26, 26, 46, 0.9) 65%, transparent 65%, transparent 70%, rgba(22, 22, 42, 0.9) 70%, rgba(22, 22, 42, 0.9) 75%, transparent 75%, transparent 80%, rgba(26, 26, 46, 0.9) 80%, rgba(26, 26, 46, 0.9) 83%, transparent 83%, transparent 88%, rgba(20, 20, 40, 0.95) 88%, rgba(20, 20, 40, 0.95) 95%, transparent 95%);
+    box-shadow:
+        inset 0 0 50px rgba(0, 212, 255, 0.1),
+        inset 0 0 20px rgba(255, 107, 157, 0.05);
+    animation: cityLights 3s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes cityLights {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+/* Spring - Cherry Blossoms */
+body.theme-spring .ambiance-layer::before {
+    content: '🌸';
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    font-size: 3rem;
+    opacity: 0.6;
+    animation: float 8s ease-in-out infinite;
+}
+
+body.theme-spring .ambiance-layer::after {
+    content: '🌸';
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    font-size: 2.5rem;
+    opacity: 0.5;
+    animation: float 10s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    66% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+}
+
+/* Winter - Snowflakes */
+body.theme-winter .ambiance-layer::before {
+    content: '❄️';
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    font-size: 2.5rem;
+    opacity: 0.7;
+    animation: snowfall 12s linear infinite;
+}
+
+body.theme-winter .ambiance-layer::after {
+    content: '❄️';
+    position: absolute;
+    top: 5%;
+    right: 30%;
+    font-size: 3rem;
+    opacity: 0.6;
+    animation: snowfall 15s linear infinite 3s;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Summer - Sun rays */
+body.theme-summer .ambiance-layer::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 152, 0, 0.3) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+/* Fall - Falling leaves */
+body.theme-fall .ambiance-layer::before {
+    content: '🍂';
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    font-size: 2.5rem;
+    opacity: 0.6;
+    animation: leafFall 10s ease-in-out infinite;
+}
+
+body.theme-fall .ambiance-layer::after {
+    content: '🍁';
+    position: absolute;
+    top: 5%;
+    right: 25%;
+    font-size: 3rem;
+    opacity: 0.5;
+    animation: leafFall 12s ease-in-out infinite 2s;
+}
+
+@keyframes leafFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg) translateX(50px);
+        opacity: 0;
+    }
+}
+
 /* Content */
 .content {
     position: relative;
@@ -283,7 +430,7 @@ body.work-mode .rain-container::after {
     position: absolute;
     top: 60px;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: var(--spacing-sm);
@@ -307,7 +454,7 @@ body.work-mode .rain-container::after {
     padding: var(--spacing-sm);
     border: none;
     background: transparent;
-    color: var(--bg-primary);
+    color: #2d3436;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -322,14 +469,15 @@ body.work-mode .rain-container::after {
 }
 
 .theme-option:hover {
-    background: var(--accent);
-    color: white;
+    background: #fdcb6e;
+    color: #2d3436;
     transform: translateX(5px);
 }
 
 .theme-option.active {
-    background: var(--accent);
-    color: white;
+    background: #fdcb6e;
+    color: #2d3436;
+    font-weight: 700;
 }
 
 /* Study Room Illustration */
@@ -467,10 +615,33 @@ body.work-mode .rain-container::after {
     right: 100px;
     width: 80px;
     height: 80px;
-    background: rgba(236, 240, 241, 0.9);
+    background: rgba(236, 240, 241, 0.95);
     border-radius: 50%;
     border: 5px solid var(--accent);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.8s ease;
+}
+
+/* Clock colors for different themes */
+body.theme-winter .wall-clock {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-spring .wall-clock {
+    background: rgba(255, 240, 245, 0.95);
+}
+
+body.theme-summer .wall-clock {
+    background: rgba(255, 248, 225, 0.95);
+}
+
+body.theme-fall .wall-clock {
+    background: rgba(255, 245, 238, 0.95);
+}
+
+body.theme-night .wall-clock {
+    background: rgba(30, 30, 50, 0.95);
+    border-color: #00d4ff;
 }
 
 .wall-clock::before {
@@ -481,9 +652,13 @@ body.work-mode .rain-container::after {
     transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
-    background: var(--bg-primary);
+    background: #2d3436;
     border-radius: 50%;
     z-index: 3;
+}
+
+body.theme-night .wall-clock::before {
+    background: #00d4ff;
 }
 
 .clock-hand {
@@ -491,33 +666,26 @@ body.work-mode .rain-container::after {
     bottom: 50%;
     left: 50%;
     transform-origin: bottom center;
-    background: var(--bg-primary);
+    background: #2d3436;
     border-radius: 10px 10px 0 0;
+    transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+body.theme-night .clock-hand {
+    background: #00d4ff;
 }
 
 .clock-hand.hour {
     width: 4px;
     height: 22px;
     margin-left: -2px;
-    animation: rotate-hour 43200s linear infinite;
 }
 
 .clock-hand.minute {
     width: 3px;
     height: 30px;
     margin-left: -1.5px;
-    animation: rotate-minute 3600s linear infinite;
     z-index: 2;
-}
-
-@keyframes rotate-hour {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-minute {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 /* Timer Section */

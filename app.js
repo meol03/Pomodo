@@ -26,6 +26,7 @@ class PomodoroTimer {
         this.updateDisplay();
         this.updateSessionDots();
         this.requestNotificationPermission();
+        this.startClock();
     }
 
     initializeElements() {
@@ -61,6 +62,10 @@ class PomodoroTimer {
         this.themeToggle = document.getElementById('themeToggle');
         this.themeMenu = document.getElementById('themeMenu');
         this.themeOptions = document.querySelectorAll('.theme-option');
+
+        // Clock
+        this.hourHand = document.querySelector('.clock-hand.hour');
+        this.minuteHand = document.querySelector('.clock-hand.minute');
     }
 
     attachEventListeners() {
@@ -342,6 +347,32 @@ class PomodoroTimer {
                 option.classList.add('active');
             }
         });
+    }
+
+    // Clock methods
+    startClock() {
+        this.updateClock();
+        // Update clock every second
+        setInterval(() => this.updateClock(), 1000);
+    }
+
+    updateClock() {
+        const now = new Date();
+        const hours = now.getHours() % 12;
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        // Calculate rotation angles
+        const hourDeg = (hours * 30) + (minutes * 0.5); // 30deg per hour + 0.5deg per minute
+        const minuteDeg = (minutes * 6) + (seconds * 0.1); // 6deg per minute + 0.1deg per second
+
+        // Apply rotations
+        if (this.hourHand) {
+            this.hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        }
+        if (this.minuteHand) {
+            this.minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        }
     }
 
     showTemporaryMessage(message) {
