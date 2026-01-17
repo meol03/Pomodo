@@ -578,22 +578,26 @@ body.theme-fall .ambiance-layer::after {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    perspective: 1000px;
 }
 
 .desk {
     position: relative;
-    width: 400px;
-    height: 120px;
-    background: linear-gradient(135deg, rgba(139, 111, 71, 0.7) 0%, rgba(101, 84, 63, 0.8) 100%);
-    border-radius: 10px 10px 0 0;
+    width: 450px;
+    height: 150px;
+    background: linear-gradient(180deg, rgba(139, 111, 71, 0.85) 0%, rgba(101, 84, 63, 0.9) 100%);
+    border-radius: 8px;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-around;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.1);
-    border-top: 2px solid rgba(199, 149, 109, 0.3);
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    transform: rotateX(25deg);
+    transform-style: preserve-3d;
+    border: 1px solid rgba(199, 149, 109, 0.4);
 }
 
 .coffee-cup {
@@ -662,69 +666,87 @@ body.theme-fall .ambiance-layer::after {
     }
 }
 
+@keyframes screenGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 15px var(--accent),
+            0 0 30px rgba(var(--accent-rgb, 66, 133, 244), 0.2),
+            inset 0 0 12px rgba(var(--accent-rgb, 66, 133, 244), 0.5),
+            inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        filter: brightness(1);
+    }
+    50% {
+        box-shadow:
+            0 0 30px var(--accent),
+            0 0 60px rgba(var(--accent-rgb, 66, 133, 244), 0.4),
+            inset 0 0 20px rgba(var(--accent-rgb, 66, 133, 244), 0.8),
+            inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        filter: brightness(1.15);
+    }
+}
+
 .plant {
-    width: 45px;
-    height: 75px;
+    width: 65px;
+    height: 85px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
 }
 
-/* Terracotta pot */
+/* Monitor stand base */
 .plant::before {
     content: '';
     position: absolute;
-    bottom: -18px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
-    width: 38px;
-    height: 28px;
-    background: linear-gradient(135deg, #d97555 0%, #c15d3f 50%, #a04d33 100%);
-    border-radius: 0 0 16px 16px;
+    width: 45px;
+    height: 8px;
+    background: linear-gradient(180deg, #2d3436 0%, #1a1d1f 100%);
+    border-radius: 3px;
     box-shadow:
-        inset 0 2px 6px rgba(255, 255, 255, 0.25),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-        0 3px 10px rgba(0, 0, 0, 0.3);
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
-/* Main cactus stem */
+/* Monitor screen with glowing effect */
 .plant::after {
     content: '';
     position: absolute;
-    bottom: 10px;
-    width: 26px;
-    height: 52px;
+    bottom: 12px;
+    width: 60px;
+    height: 50px;
     background:
-        /* Vertical ridges */
-        repeating-linear-gradient(90deg,
-            transparent 0px,
-            transparent 5px,
-            rgba(0, 0, 0, 0.08) 5px,
-            rgba(0, 0, 0, 0.08) 6px,
-            transparent 6px,
-            transparent 11px
-        ),
-        /* Base color */
-        linear-gradient(145deg, #5cd97c 0%, #3ddb6f 30%, #2ecc71 60%, #27ae60 100%);
-    border-radius: 13px 13px 6px 6px;
+        /* Screen glow */
+        radial-gradient(ellipse at center, var(--accent) 0%, transparent 70%),
+        /* Screen bezel */
+        linear-gradient(145deg, #2d3436 0%, #1a1d1f 100%);
+    border-radius: 4px;
+    border: 2px solid #1a1d1f;
     box-shadow:
-        inset -3px 0 8px rgba(0, 0, 0, 0.15),
-        inset 3px 0 8px rgba(255, 255, 255, 0.2),
-        0 3px 10px rgba(0, 0, 0, 0.2);
+        /* Outer glow - animated */
+        0 0 20px var(--accent),
+        0 0 40px rgba(var(--accent-rgb, 66, 133, 244), 0.3),
+        /* Inner depth */
+        inset 0 0 15px rgba(var(--accent-rgb, 66, 133, 244), 0.6),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    animation: screenGlow 4s ease-in-out infinite;
 }
 
-/* Cactus arms */
+/* Monitor stand neck - using background on main element */
 .plant {
     background:
-        /* Left arm */
-        radial-gradient(ellipse 10px 16px at 7px 38px, #3ddb6f 0%, #2ecc71 60%, #27ae60 100%),
-        /* Right arm */
-        radial-gradient(ellipse 10px 16px at 38px 42px, #3ddb6f 0%, #2ecc71 60%, #27ae60 100%);
+        /* Stand neck */
+        linear-gradient(180deg, #2d3436 0%, #1a1d1f 100%);
+    background-position: center bottom;
+    background-size: 8px 18px;
     background-repeat: no-repeat;
 }
-
-/* Right cactus arm - using a pseudo element on a child would be better, but working with what we have */
 
 .books {
     width: 70px;
@@ -1052,12 +1074,12 @@ body.theme-night .clock-hand {
     }
 
     .study-room {
-        height: 180px;
+        height: 200px;
     }
 
     .desk {
-        width: 300px;
-        height: 100px;
+        width: 350px;
+        height: 120px;
     }
 
     .wall-clock {
@@ -1094,12 +1116,12 @@ body.theme-night .clock-hand {
     }
 
     .study-room {
-        height: 150px;
+        height: 170px;
     }
 
     .desk {
-        width: 250px;
-        height: 80px;
+        width: 280px;
+        height: 100px;
     }
 }
 
