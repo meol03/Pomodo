@@ -1,10 +1,7 @@
 // Lo-Fi Study Timer - Main Application Logic
 
-console.log('app.js is loading...');
-
 class PomodoroTimer {
     constructor() {
-        console.log('PomodoroTimer constructor called');
         // Timer settings (in seconds)
         this.settings = {
             workDuration: 25 * 60,
@@ -62,23 +59,9 @@ class PomodoroTimer {
     }
 
     attachEventListeners() {
-        console.log('Attaching event listeners...');
-        console.log('Start button:', this.startBtn);
-        console.log('Pause button:', this.pauseBtn);
-        console.log('Reset button:', this.resetBtn);
-
-        this.startBtn.addEventListener('click', () => {
-            console.log('Start button clicked!');
-            this.start();
-        });
-        this.pauseBtn.addEventListener('click', () => {
-            console.log('Pause button clicked!');
-            this.pause();
-        });
-        this.resetBtn.addEventListener('click', () => {
-            console.log('Reset button clicked!');
-            this.reset();
-        });
+        this.startBtn.addEventListener('click', () => this.start());
+        this.pauseBtn.addEventListener('click', () => this.pause());
+        this.resetBtn.addEventListener('click', () => this.reset());
 
         this.settingsToggle.addEventListener('click', () => this.toggleSettings());
         this.saveSettingsBtn.addEventListener('click', () => this.saveSettings());
@@ -381,14 +364,6 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Initialize the timer when the page loads
-console.log('Setting up DOMContentLoaded listener...');
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded event fired!');
-    console.log('Creating PomodoroTimer instance...');
     const timer = new PomodoroTimer();
-    console.log('PomodoroTimer instance created:', timer);
-
-    // Make timer accessible from console for debugging
-    window.pomodoroTimer = timer;
-    console.log('Timer is ready! Try clicking the Start button.');
 });
