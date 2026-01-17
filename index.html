@@ -19,10 +19,25 @@
             <!-- Header with title and stats -->
             <header class="header">
                 <h1 class="title">Pomodo</h1>
-                <div class="daily-stats">
-                    <span class="stats-icon">🍅</span>
-                    <span class="stats-count" id="dailyCount">0</span>
-                    <span class="stats-label">today</span>
+                <div class="header-right">
+                    <div class="theme-selector">
+                        <button class="theme-btn" id="themeToggle" title="Change Theme">
+                            <span>🎨</span>
+                        </button>
+                        <div class="theme-menu" id="themeMenu">
+                            <button class="theme-option" data-theme="default">☕ Cozy Study</button>
+                            <button class="theme-option" data-theme="night">🌙 Night City</button>
+                            <button class="theme-option" data-theme="winter">❄️ Winter</button>
+                            <button class="theme-option" data-theme="spring">🌸 Spring</button>
+                            <button class="theme-option" data-theme="summer">☀️ Summer</button>
+                            <button class="theme-option" data-theme="fall">🍂 Fall</button>
+                        </div>
+                    </div>
+                    <div class="daily-stats">
+                        <span class="stats-icon">🍅</span>
+                        <span class="stats-count" id="dailyCount">0</span>
+                        <span class="stats-label">today</span>
+                    </div>
                 </div>
             </header>
 

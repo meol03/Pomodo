@@ -39,6 +39,81 @@ body.break-mode {
     --highlight: var(--break-highlight);
 }
 
+/* Theme: Night City */
+body.theme-night {
+    --work-bg-primary: #1a1a2e;
+    --work-bg-secondary: #16213e;
+    --work-accent: #00d4ff;
+    --work-text: #e4e4e4;
+    --work-highlight: #ff6b9d;
+
+    --break-bg-primary: #0f3460;
+    --break-bg-secondary: #533483;
+    --break-accent: #00d4ff;
+    --break-text: #e4e4e4;
+    --break-highlight: #ff6b9d;
+}
+
+/* Theme: Winter */
+body.theme-winter {
+    --work-bg-primary: #d4e4f7;
+    --work-bg-secondary: #a8c5e2;
+    --work-accent: #5d9cec;
+    --work-text: #2c3e50;
+    --work-highlight: #ac92ec;
+
+    --break-bg-primary: #e8f4f8;
+    --break-bg-secondary: #b8d4e8;
+    --break-accent: #4fc3f7;
+    --break-text: #2c3e50;
+    --break-highlight: #ac92ec;
+}
+
+/* Theme: Spring */
+body.theme-spring {
+    --work-bg-primary: #fce4ec;
+    --work-bg-secondary: #f8bbd0;
+    --work-accent: #ff80ab;
+    --work-text: #4a148c;
+    --work-highlight: #69f0ae;
+
+    --break-bg-primary: #f3e5f5;
+    --break-bg-secondary: #ce93d8;
+    --break-accent: #ea80fc;
+    --break-text: #4a148c;
+    --break-highlight: #69f0ae;
+}
+
+/* Theme: Summer */
+body.theme-summer {
+    --work-bg-primary: #fff3e0;
+    --work-bg-secondary: #ffe0b2;
+    --work-accent: #ff9800;
+    --work-text: #3e2723;
+    --work-highlight: #00bfa5;
+
+    --break-bg-primary: #fff8e1;
+    --break-bg-secondary: #ffecb3;
+    --break-accent: #ffc107;
+    --break-text: #3e2723;
+    --break-highlight: #00bfa5;
+}
+
+/* Theme: Fall */
+body.theme-fall {
+    --work-bg-primary: #5d4037;
+    --work-bg-secondary: #8d6e63;
+    --work-accent: #ff6f00;
+    --work-text: #ffd54f;
+    --work-highlight: #d32f2f;
+
+    --break-bg-primary: #6d4c41;
+    --break-bg-secondary: #a1887f;
+    --break-accent: #ff8f00;
+    --break-text: #fff9c4;
+    --break-highlight: #d32f2f;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -160,6 +235,91 @@ body.work-mode .rain-container::after {
 .stats-label {
     font-size: 0.9rem;
     opacity: 0.8;
+}
+
+/* Header Right */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Theme Selector */
+.theme-selector {
+    position: relative;
+}
+
+.theme-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.theme-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: var(--spacing-sm);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+    min-width: 180px;
+}
+
+.theme-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.theme-option {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: none;
+    background: transparent;
+    color: var(--bg-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-align: left;
+    margin-bottom: var(--spacing-xs);
+}
+
+.theme-option:last-child {
+    margin-bottom: 0;
+}
+
+.theme-option:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateX(5px);
+}
+
+.theme-option.active {
+    background: var(--accent);
+    color: white;
 }
 
 /* Study Room Illustration */

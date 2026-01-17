@@ -56,6 +56,11 @@ class PomodoroTimer {
 
         // Sound
         this.notificationSound = document.getElementById('notificationSound');
+
+        // Theme
+        this.themeToggle = document.getElementById('themeToggle');
+        this.themeMenu = document.getElementById('themeMenu');
+        this.themeOptions = document.querySelectorAll('.theme-option');
     }
 
     attachEventListeners() {
@@ -65,6 +70,26 @@ class PomodoroTimer {
 
         this.settingsToggle.addEventListener('click', () => this.toggleSettings());
         this.saveSettingsBtn.addEventListener('click', () => this.saveSettings());
+
+        // Theme events
+        this.themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleThemeMenu();
+        });
+
+        this.themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                this.changeTheme(theme);
+            });
+        });
+
+        // Close theme menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.theme-selector')) {
+                this.themeMenu.classList.remove('active');
+            }
+        });
 
         // Close settings when clicking outside
         document.addEventListener('click', (e) => {
@@ -76,6 +101,31 @@ class PomodoroTimer {
         // Prevent settings panel from closing when clicking inside
         this.settingsContent.addEventListener('click', (e) => {
             e.stopPropagation();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ignore if typing in an input field
+            if (e.target.tagName === 'INPUT') return;
+
+            switch(e.key.toLowerCase()) {
+                case ' ': // Space - Start/Pause
+                    e.preventDefault();
+                    if (this.isRunning) {
+                        this.pause();
+                    } else {
+                        this.start();
+                    }
+                    break;
+                case 'r': // R - Reset
+                    e.preventDefault();
+                    this.reset();
+                    break;
+                case 's': // S - Settings
+                    e.preventDefault();
+                    this.toggleSettings();
+                    break;
+            }
         });
     }
 
@@ -237,6 +287,47 @@ class PomodoroTimer {
 
         // Set initial mode
         document.body.classList.add('work-mode');
+
+        // Load saved theme
+        this.loadTheme();
+    }
+
+    // Theme methods
+    toggleThemeMenu() {
+        this.themeMenu.classList.toggle('active');
+        this.settingsContent.classList.remove('active');
+    }
+
+    changeTheme(theme) {
+        // Remove all theme classes
+        document.body.classList.remove('theme-night', 'theme-winter', 'theme-spring', 'theme-summer', 'theme-fall');
+
+        // Add new theme class (unless default)
+        if (theme !== 'default') {
+            document.body.classList.add(`theme-${theme}`);
+        }
+
+        // Update active state on buttons
+        this.themeOptions.forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.theme === theme) {
+                option.classList.add('active');
+            }
+        });
+
+        // Save theme to localStorage
+        localStorage.setItem('pomodoroTheme', theme);
+
+        // Close theme menu
+        this.themeMenu.classList.remove('active');
+
+        // Show confirmation
+        this.showTemporaryMessage(`Theme changed to ${theme}!`);
+    }
+
+    loadTheme() {
+        const savedTheme = localStorage.getItem('pomodoroTheme') || 'default';
+        this.changeTheme(savedTheme);
     }
 
     showTemporaryMessage(message) {
