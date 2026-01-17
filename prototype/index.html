@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodo - Focus Timer with Spotify</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🍅 Pomodo</h1>
+      <p class="subtitle">Focus timer with Spotify integration</p>
+    </header>
+
+    <main>
+      <!-- Timer Display -->
+      <div class="timer-section">
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="session-type" id="session-type">Work Session</div>
+
+        <div class="timer-controls">
+          <button id="start-btn" class="btn btn-primary">Start</button>
+          <button id="pause-btn" class="btn btn-secondary" disabled>Pause</button>
+          <button id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+
+      <!-- Spotify Connection -->
+      <div class="spotify-section">
+        <div id="spotify-disconnected" class="spotify-card">
+          <div class="spotify-icon">🎵</div>
+          <h3>Connect to Spotify</h3>
+          <p>Auto-pause music during breaks with smooth fade transitions</p>
+          <button id="spotify-login-btn" class="btn btn-spotify">Connect Spotify</button>
+          <p class="spotify-note">Requires Spotify Premium</p>
+        </div>
+
+        <div id="spotify-connected" class="spotify-card" style="display: none;">
+          <div class="spotify-status">
+            <span class="status-indicator">✓</span>
+            <span>Connected to Spotify</span>
+          </div>
+
+          <div id="now-playing" class="now-playing">
+            <div class="playing-icon">♫</div>
+            <div class="track-info">
+              <div id="track-name">No track playing</div>
+              <div id="track-artist"></div>
+            </div>
+          </div>
+
+          <button id="spotify-disconnect-btn" class="btn btn-secondary btn-small">Disconnect</button>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="settings-section">
+        <h3>Settings</h3>
+
+        <div class="setting-group">
+          <label>
+            <input type="checkbox" id="auto-pause-break" checked>
+            Auto-pause music during breaks
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <label>
+            <input type="checkbox" id="auto-resume-work" checked>
+            Auto-resume music during work sessions
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <label for="fade-duration">Fade duration:</label>
+          <select id="fade-duration">
+            <option value="0">Instant</option>
+            <option value="1000">1 second</option>
+            <option value="2000">2 seconds</option>
+            <option value="3000" selected>3 seconds</option>
+            <option value="5000">5 seconds</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="work-duration">Work duration (minutes):</label>
+          <input type="number" id="work-duration" min="1" max="60" value="25">
+        </div>
+
+        <div class="setting-group">
+          <label for="break-duration">Break duration (minutes):</label>
+          <input type="number" id="break-duration" min="1" max="30" value="5">
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Built with ❤️ using Spotify Web API</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/spotify-auth.js"></script>
+  <script src="js/spotify-api.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

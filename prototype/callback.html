@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodo - Spotify Authorization</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="callback-container">
+      <h1>🍅 Pomodo</h1>
+      <div id="callback-message">
+        <div class="loading-spinner"></div>
+        <p>Connecting to Spotify...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/spotify-auth.js"></script>
+  <script>
+    // Handle OAuth callback
+    async function handleCallback() {
+      const messageEl = document.getElementById('callback-message');
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const state = params.get('state');
+        const error = params.get('error');
+
+        if (error) {
+          messageEl.innerHTML = `
+            <p class="error">❌ Authorization failed: ${error}</p>
+            <p><a href="index.html">Return to app</a></p>
+          `;
+          return;
+        }
+
+        if (!code) {
+          messageEl.innerHTML = `
+            <p class="error">❌ No authorization code received</p>
+            <p><a href="index.html">Return to app</a></p>
+          `;
+          return;
+        }
+
+        // Verify state (CSRF protection)
+        const storedState = localStorage.getItem('auth_state');
+        if (state !== storedState) {
+          messageEl.innerHTML = `
+            <p class="error">❌ Security check failed. Please try again.</p>
+            <p><a href="index.html">Return to app</a></p>
+          `;
+          return;
+        }
+
+        // Get code verifier
+        const codeVerifier = localStorage.getItem('code_verifier');
+        if (!codeVerifier) {
+          messageEl.innerHTML = `
+            <p class="error">❌ Authorization session expired. Please try again.</p>
+            <p><a href="index.html">Return to app</a></p>
+          `;
+          return;
+        }
+
+        // Exchange code for tokens
+        messageEl.innerHTML = `
+          <div class="loading-spinner"></div>
+          <p>Exchanging authorization code...</p>
+        `;
+
+        const success = await SpotifyAuth.exchangeCodeForToken(code, codeVerifier);
+
+        if (success) {
+          messageEl.innerHTML = `
+            <p class="success">✓ Successfully connected to Spotify!</p>
+            <p>Redirecting...</p>
+          `;
+
+          // Clean up
+          localStorage.removeItem('code_verifier');
+          localStorage.removeItem('auth_state');
+
+          // Redirect to main app
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          messageEl.innerHTML = `
+            <p class="error">❌ Failed to get access token. Please try again.</p>
+            <p><a href="index.html">Return to app</a></p>
+          `;
+        }
+      } catch (err) {
+        console.error('Callback error:', err);
+        messageEl.innerHTML = `
+          <p class="error">❌ An error occurred: ${err.message}</p>
+          <p><a href="index.html">Return to app</a></p>
+        `;
+      }
+    }
+
+    // Run callback handler on page load
+    handleCallback();
+  </script>
+</body>
+</html>
