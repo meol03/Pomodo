@@ -604,21 +604,12 @@ body.theme-fall .ambiance-layer::after {
     position: relative;
     width: 60px;
     height: 70px;
-    background:
-        linear-gradient(to right, rgba(255, 255, 255, 0.3) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.2) 100%),
-        linear-gradient(135deg, #d4a574 0%, #a67c52 50%, #8b6f47 100%);
+    background: linear-gradient(135deg, #d4a574 0%, #a67c52 50%, #8b6f47 100%);
     border-radius: 0 0 30px 30px;
     box-shadow:
-        /* Main shadow */
-        0 8px 20px rgba(0, 0, 0, 0.4),
-        0 3px 8px rgba(0, 0, 0, 0.3),
-        /* Inner shadows for depth */
-        inset -3px 0 8px rgba(0, 0, 0, 0.3),
-        inset 3px 0 8px rgba(255, 255, 255, 0.2),
-        inset 0 -5px 12px rgba(0, 0, 0, 0.25),
-        inset 0 2px 6px rgba(255, 255, 255, 0.3);
-    transform: rotateY(8deg) rotateX(-5deg) translateZ(3px);
-    transform-style: preserve-3d;
+        inset 0 -5px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .coffee-cup::before {
@@ -626,17 +617,12 @@ body.theme-fall .ambiance-layer::after {
     position: absolute;
     top: 10px;
     right: -15px;
-    width: 22px;
-    height: 32px;
+    width: 20px;
+    height: 30px;
     border: 3px solid #a67c52;
     border-left: none;
     border-radius: 0 15px 15px 0;
-    background: linear-gradient(to right, transparent 0%, rgba(212, 165, 116, 0.2) 50%, transparent 100%);
-    box-shadow:
-        3px 3px 8px rgba(0, 0, 0, 0.4),
-        inset -2px 0 4px rgba(0, 0, 0, 0.3),
-        inset 2px 0 4px rgba(255, 255, 255, 0.2);
-    transform: translateZ(2px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Coffee liquid surface removed for cleaner look */
@@ -683,23 +669,21 @@ body.theme-fall .ambiance-layer::after {
 @keyframes screenGlow {
     0%, 100% {
         box-shadow:
-            0 0 30px var(--accent),
-            0 0 60px rgba(var(--accent-rgb, 66, 133, 244), 0.3),
-            0 8px 15px rgba(0, 0, 0, 0.6),
-            inset 0 0 20px rgba(255, 255, 255, 0.3),
-            inset 0 -3px 10px rgba(0, 0, 0, 0.3),
-            inset 0 3px 10px rgba(255, 255, 255, 0.2);
-        filter: brightness(0.95) saturate(1.1);
+            0 0 15px var(--accent),
+            0 0 30px rgba(var(--accent-rgb, 66, 133, 244), 0.2),
+            inset 0 0 12px rgba(var(--accent-rgb, 66, 133, 244), 0.5),
+            inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        filter: brightness(1);
     }
     50% {
         box-shadow:
-            0 0 45px var(--accent),
-            0 0 90px rgba(var(--accent-rgb, 66, 133, 244), 0.5),
-            0 8px 15px rgba(0, 0, 0, 0.6),
-            inset 0 0 25px rgba(255, 255, 255, 0.4),
-            inset 0 -3px 10px rgba(0, 0, 0, 0.3),
-            inset 0 3px 10px rgba(255, 255, 255, 0.25);
-        filter: brightness(1.1) saturate(1.2);
+            0 0 30px var(--accent),
+            0 0 60px rgba(var(--accent-rgb, 66, 133, 244), 0.4),
+            inset 0 0 20px rgba(var(--accent-rgb, 66, 133, 244), 0.8),
+            inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        filter: brightness(1.15);
     }
 }
 
@@ -711,7 +695,6 @@ body.theme-fall .ambiance-layer::after {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    transform-style: preserve-3d;
 }
 
 /* Monitor stand base */
@@ -720,18 +703,14 @@ body.theme-fall .ambiance-layer::after {
     position: absolute;
     bottom: -5px;
     left: 50%;
-    transform: translateX(-50%) rotateX(-5deg) translateZ(1px);
+    transform: translateX(-50%);
     width: 45px;
     height: 8px;
-    background:
-        linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.3) 100%),
-        linear-gradient(180deg, #2d3436 0%, #1a1d1f 100%);
+    background: linear-gradient(180deg, #2d3436 0%, #1a1d1f 100%);
     border-radius: 3px;
     box-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.6),
-        0 1px 4px rgba(0, 0, 0, 0.5),
-        inset 0 1px 2px rgba(255, 255, 255, 0.15),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Monitor screen with glowing effect */
@@ -741,20 +720,22 @@ body.theme-fall .ambiance-layer::after {
     bottom: 12px;
     width: 60px;
     height: 50px;
-    background: var(--accent);
+    background:
+        /* Screen glow */
+        radial-gradient(ellipse at center, var(--accent) 0%, transparent 70%),
+        /* Screen bezel */
+        linear-gradient(145deg, #2d3436 0%, #1a1d1f 100%);
     border-radius: 4px;
-    border: 3px solid #1a1d1f;
+    border: 2px solid #1a1d1f;
     box-shadow:
         /* Outer glow - animated */
-        0 0 25px var(--accent),
-        0 0 50px rgba(var(--accent-rgb, 66, 133, 244), 0.4),
-        0 8px 15px rgba(0, 0, 0, 0.6),
-        /* Inner screen depth */
-        inset 0 0 20px rgba(255, 255, 255, 0.3),
-        inset 0 -3px 10px rgba(0, 0, 0, 0.3),
-        inset 0 3px 10px rgba(255, 255, 255, 0.2);
+        0 0 20px var(--accent),
+        0 0 40px rgba(var(--accent-rgb, 66, 133, 244), 0.3),
+        /* Inner depth */
+        inset 0 0 15px rgba(var(--accent-rgb, 66, 133, 244), 0.6),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
     animation: screenGlow 4s ease-in-out infinite;
-    transform: rotateY(-2deg) translateZ(5px);
 }
 
 /* Monitor stand neck - using background on main element */
@@ -774,7 +755,6 @@ body.theme-fall .ambiance-layer::after {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    transform-style: preserve-3d;
 }
 
 .books::before,
@@ -784,34 +764,23 @@ body.theme-fall .ambiance-layer::after {
     width: 60px;
     height: 22px;
     border-radius: 2px 4px 2px 0;
-    border-right: 3px solid rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow:
-        /* Strong shadow for depth */
-        0 6px 12px rgba(0, 0, 0, 0.4),
-        0 2px 6px rgba(0, 0, 0, 0.3),
-        /* Inner highlights */
-        inset -2px 0 6px rgba(0, 0, 0, 0.3),
-        inset 2px 0 6px rgba(255, 255, 255, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .books::before {
     top: 0;
-    background:
-        linear-gradient(to right, rgba(255, 255, 255, 0.2) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.2) 100%),
-        linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    transform: rotate(-2deg) rotateY(-5deg) rotateX(-3deg) translateZ(4px);
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    transform: rotate(-2deg);
     z-index: 2;
 }
 
 .books::after {
     top: 20px;
-    background:
-        linear-gradient(to right, rgba(255, 255, 255, 0.2) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.2) 100%),
-        linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    transform: rotate(1deg) rotateY(-4deg) rotateX(-2deg) translateZ(3px);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    transform: rotate(1deg);
     width: 65px;
     z-index: 1;
 }
@@ -822,20 +791,13 @@ body.theme-fall .ambiance-layer::after {
     left: 5px;
     width: 58px;
     height: 20px;
-    background:
-        linear-gradient(to right, rgba(255, 255, 255, 0.2) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.2) 100%),
-        linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
     border-radius: 2px 4px 2px 0;
-    border-right: 3px solid rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    transform: rotate(-1deg) rotateY(-3deg) rotateX(-2deg) translateZ(2px);
+    transform: rotate(-1deg);
     box-shadow:
-        0 6px 12px rgba(0, 0, 0, 0.4),
-        0 2px 6px rgba(0, 0, 0, 0.3),
-        inset -2px 0 6px rgba(0, 0, 0, 0.3),
-        inset 2px 0 6px rgba(255, 255, 255, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .wall-clock {
