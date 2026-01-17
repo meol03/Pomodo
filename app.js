@@ -21,10 +21,10 @@ class PomodoroTimer {
         this.sessionsCompleted = 0;
         this.isBreak = false;
 
-        // Initialize
+        // Initialize - elements must be initialized first!
+        this.initializeElements();
         this.loadSettings();
         this.loadDailyStats();
-        this.initializeElements();
         this.attachEventListeners();
         this.updateDisplay();
         this.updateSessionDots();
