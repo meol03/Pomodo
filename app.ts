@@ -59,6 +59,10 @@ class PomodoroTimer {
     private themeMenu!: HTMLElement;
     private themeOptions!: NodeListOf<HTMLElement>;
 
+    // DOM elements - Clock
+    private hourHand!: HTMLElement | null;
+    private minuteHand!: HTMLElement | null;
+
     constructor() {
         // Timer settings (in seconds)
         this.settings = {
@@ -84,6 +88,7 @@ class PomodoroTimer {
         this.updateDisplay();
         this.updateSessionDots();
         this.requestNotificationPermission();
+        this.startClock();
     }
 
     private initializeElements(): void {
@@ -119,6 +124,10 @@ class PomodoroTimer {
         this.themeToggle = document.getElementById('themeToggle') as HTMLButtonElement;
         this.themeMenu = document.getElementById('themeMenu')!;
         this.themeOptions = document.querySelectorAll('.theme-option');
+
+        // Clock
+        this.hourHand = document.querySelector('.clock-hand.hour');
+        this.minuteHand = document.querySelector('.clock-hand.minute');
     }
 
     private attachEventListeners(): void {
@@ -391,7 +400,21 @@ class PomodoroTimer {
     private loadTheme(): void {
         const savedTheme: string | null = localStorage.getItem('pomodoroTheme');
         const theme: ThemeName = (savedTheme as ThemeName) || 'default';
-        this.changeTheme(theme);
+
+        // Apply theme without showing message on initial load
+        document.body.classList.remove('theme-night', 'theme-winter', 'theme-spring', 'theme-summer', 'theme-fall');
+
+        if (theme !== 'default') {
+            document.body.classList.add(`theme-${theme}`);
+        }
+
+        // Update active state on buttons
+        this.themeOptions.forEach((option: HTMLElement) => {
+            option.classList.remove('active');
+            if (option.dataset.theme === theme) {
+                option.classList.add('active');
+            }
+        });
     }
 
     private showTemporaryMessage(message: string): void {
@@ -488,6 +511,32 @@ class PomodoroTimer {
 
     private updateDailyStatsDisplay(): void {
         this.dailyCountElement.textContent = String(this.sessionsCompleted);
+    }
+
+    // Clock methods
+    private startClock(): void {
+        this.updateClock();
+        // Update clock every second
+        setInterval(() => this.updateClock(), 1000);
+    }
+
+    private updateClock(): void {
+        const now: Date = new Date();
+        const hours: number = now.getHours() % 12;
+        const minutes: number = now.getMinutes();
+        const seconds: number = now.getSeconds();
+
+        // Calculate rotation angles
+        const hourDeg: number = (hours * 30) + (minutes * 0.5); // 30deg per hour + 0.5deg per minute
+        const minuteDeg: number = (minutes * 6) + (seconds * 0.1); // 6deg per minute + 0.1deg per second
+
+        // Apply rotations
+        if (this.hourHand) {
+            this.hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        }
+        if (this.minuteHand) {
+            this.minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        }
     }
 }
 

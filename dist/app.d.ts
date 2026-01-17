@@ -36,6 +36,8 @@ declare class PomodoroTimer {
     private themeToggle;
     private themeMenu;
     private themeOptions;
+    private hourHand;
+    private minuteHand;
     constructor();
     private initializeElements;
     private attachEventListeners;
@@ -61,6 +63,8 @@ declare class PomodoroTimer {
     private updateDailyStats;
     private saveDailyStats;
     private updateDailyStatsDisplay;
+    private startClock;
+    private updateClock;
 }
 declare const style: HTMLStyleElement;
 //# sourceMappingURL=app.d.ts.map
