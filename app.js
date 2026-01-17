@@ -7,11 +7,14 @@ class PomodoroTimer {
             workDuration: 25 * 60,
             breakDuration: 5 * 60,
             longBreakDuration: 15 * 60,
-            notificationsEnabled: true
+            notificationsEnabled: true,
+            autoStart: false,
+            soundVolume: 0.5
         };
 
         // Timer state
         this.timeRemaining = this.settings.workDuration;
+        this.totalTime = this.settings.workDuration;
         this.timerInterval = null;
         this.isRunning = false;
         this.currentSession = 1;
@@ -38,6 +41,10 @@ class PomodoroTimer {
         this.startBtn = document.getElementById('startBtn');
         this.pauseBtn = document.getElementById('pauseBtn');
         this.resetBtn = document.getElementById('resetBtn');
+        this.skipBtn = document.getElementById('skipBtn');
+
+        // Progress circle
+        this.progressCircle = document.getElementById('progressCircle');
 
         // Session dots
         this.sessionDots = document.querySelectorAll('.dot');
@@ -49,6 +56,9 @@ class PomodoroTimer {
         this.breakDurationInput = document.getElementById('breakDuration');
         this.longBreakDurationInput = document.getElementById('longBreakDuration');
         this.notificationsToggle = document.getElementById('notificationsToggle');
+        this.autoStartToggle = document.getElementById('autoStartToggle');
+        this.soundVolumeSlider = document.getElementById('soundVolumeSlider');
+        this.volumeLabel = document.getElementById('volumeLabel');
         this.saveSettingsBtn = document.getElementById('saveSettings');
 
         // Stats
@@ -61,15 +71,35 @@ class PomodoroTimer {
         this.themeToggle = document.getElementById('themeToggle');
         this.themeMenu = document.getElementById('themeMenu');
         this.themeOptions = document.querySelectorAll('.theme-option');
+
+        // Help modal
+        this.helpToggle = document.getElementById('helpToggle');
+        this.helpModal = document.getElementById('helpModal');
+        this.closeHelp = document.getElementById('closeHelp');
     }
 
     attachEventListeners() {
         this.startBtn.addEventListener('click', () => this.start());
         this.pauseBtn.addEventListener('click', () => this.pause());
         this.resetBtn.addEventListener('click', () => this.reset());
+        this.skipBtn.addEventListener('click', () => this.skipBreak());
 
         this.settingsToggle.addEventListener('click', () => this.toggleSettings());
         this.saveSettingsBtn.addEventListener('click', () => this.saveSettings());
+
+        // Volume slider
+        this.soundVolumeSlider.addEventListener('input', (e) => {
+            this.volumeLabel.textContent = e.target.value + '%';
+        });
+
+        // Help modal
+        this.helpToggle.addEventListener('click', () => this.toggleHelp());
+        this.closeHelp.addEventListener('click', () => this.toggleHelp());
+        this.helpModal.addEventListener('click', (e) => {
+            if (e.target === this.helpModal) {
+                this.toggleHelp();
+            }
+        });
 
         // Theme events
         this.themeToggle.addEventListener('click', (e) => {
@@ -125,6 +155,16 @@ class PomodoroTimer {
                     e.preventDefault();
                     this.toggleSettings();
                     break;
+                case '?': // ? - Help
+                    e.preventDefault();
+                    this.toggleHelp();
+                    break;
+                case 'escape': // Esc - Close modals
+                    e.preventDefault();
+                    this.helpModal.classList.remove('active');
+                    this.settingsContent.classList.remove('active');
+                    this.themeMenu.classList.remove('active');
+                    break;
             }
         });
     }
@@ -157,7 +197,16 @@ class PomodoroTimer {
         this.timeRemaining = this.isBreak ?
             (this.currentSession === 4 ? this.settings.longBreakDuration : this.settings.breakDuration) :
             this.settings.workDuration;
+        this.totalTime = this.timeRemaining;
         this.updateDisplay();
+        this.updateProgressRing();
+    }
+
+    skipBreak() {
+        if (this.isBreak) {
+            this.pause();
+            this.completeBreak();
+        }
     }
 
     tick() {
@@ -167,7 +216,15 @@ class PomodoroTimer {
             this.completeSession();
         } else {
             this.updateDisplay();
+            this.updateProgressRing();
         }
+    }
+
+    updateProgressRing() {
+        const circumference = 2 * Math.PI * 85;
+        const progress = this.timeRemaining / this.totalTime;
+        const offset = circumference - (progress * circumference);
+        this.progressCircle.style.strokeDashoffset = offset;
     }
 
     completeSession() {
@@ -185,38 +242,61 @@ class PomodoroTimer {
                 this.showNotification('Great work!', 'Time for a long break. You earned it!');
                 this.isBreak = true;
                 this.timeRemaining = this.settings.longBreakDuration;
+                this.totalTime = this.settings.longBreakDuration;
                 this.sessionLabel.textContent = 'Long Break';
                 document.body.classList.add('break-mode');
                 document.body.classList.remove('work-mode');
+                this.skipBtn.style.display = 'inline-block';
             } else {
                 // Time for short break
                 this.showNotification('Well done!', 'Time for a short break!');
                 this.isBreak = true;
                 this.timeRemaining = this.settings.breakDuration;
+                this.totalTime = this.settings.breakDuration;
                 this.sessionLabel.textContent = 'Short Break';
                 document.body.classList.add('break-mode');
                 document.body.classList.remove('work-mode');
+                this.skipBtn.style.display = 'inline-block';
             }
         } else {
-            // Just completed a break
-            this.showNotification('Break over!', 'Ready to focus again?');
-            this.isBreak = false;
-            this.timeRemaining = this.settings.workDuration;
-            this.sessionLabel.textContent = 'Focus Time';
-            document.body.classList.add('work-mode');
-            document.body.classList.remove('break-mode');
-
-            if (this.currentSession === 4) {
-                // Reset cycle after long break
-                this.currentSession = 1;
-                this.resetSessionDots();
-            } else {
-                this.currentSession++;
-            }
-            this.updateSessionDots();
+            this.completeBreak();
         }
 
         this.updateDisplay();
+        this.updateProgressRing();
+
+        // Auto-start next session if enabled
+        if (this.settings.autoStart) {
+            setTimeout(() => this.start(), 1000);
+        }
+    }
+
+    completeBreak() {
+        // Just completed a break
+        this.showNotification('Break over!', 'Ready to focus again?');
+        this.isBreak = false;
+        this.timeRemaining = this.settings.workDuration;
+        this.totalTime = this.settings.workDuration;
+        this.sessionLabel.textContent = 'Focus Time';
+        document.body.classList.add('work-mode');
+        document.body.classList.remove('break-mode');
+        this.skipBtn.style.display = 'none';
+
+        if (this.currentSession === 4) {
+            // Reset cycle after long break
+            this.currentSession = 1;
+            this.resetSessionDots();
+        } else {
+            this.currentSession++;
+        }
+        this.updateSessionDots();
+        this.updateDisplay();
+        this.updateProgressRing();
+
+        // Auto-start next session if enabled
+        if (this.settings.autoStart) {
+            setTimeout(() => this.start(), 1000);
+        }
     }
 
     updateDisplay() {
@@ -249,12 +329,22 @@ class PomodoroTimer {
 
     toggleSettings() {
         this.settingsContent.classList.toggle('active');
+        this.helpModal.classList.remove('active');
 
         // Load current settings into inputs
         this.workDurationInput.value = this.settings.workDuration / 60;
         this.breakDurationInput.value = this.settings.breakDuration / 60;
         this.longBreakDurationInput.value = this.settings.longBreakDuration / 60;
         this.notificationsToggle.checked = this.settings.notificationsEnabled;
+        this.autoStartToggle.checked = this.settings.autoStart;
+        this.soundVolumeSlider.value = this.settings.soundVolume * 100;
+        this.volumeLabel.textContent = (this.settings.soundVolume * 100) + '%';
+    }
+
+    toggleHelp() {
+        this.helpModal.classList.toggle('active');
+        this.settingsContent.classList.remove('active');
+        this.themeMenu.classList.remove('active');
     }
 
     saveSettings() {
@@ -262,6 +352,11 @@ class PomodoroTimer {
         this.settings.breakDuration = parseInt(this.breakDurationInput.value) * 60;
         this.settings.longBreakDuration = parseInt(this.longBreakDurationInput.value) * 60;
         this.settings.notificationsEnabled = this.notificationsToggle.checked;
+        this.settings.autoStart = this.autoStartToggle.checked;
+        this.settings.soundVolume = parseInt(this.soundVolumeSlider.value) / 100;
+
+        // Update audio volume
+        this.notificationSound.volume = this.settings.soundVolume;
 
         // Save to localStorage
         localStorage.setItem('pomodoroSettings', JSON.stringify(this.settings));
@@ -284,12 +379,19 @@ class PomodoroTimer {
 
         // Set initial timer value
         this.timeRemaining = this.settings.workDuration;
+        this.totalTime = this.settings.workDuration;
+
+        // Set audio volume
+        this.notificationSound.volume = this.settings.soundVolume;
 
         // Set initial mode
         document.body.classList.add('work-mode');
 
         // Load saved theme
         this.loadTheme();
+
+        // Update progress ring
+        this.updateProgressRing();
     }
 
     // Theme methods
