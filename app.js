@@ -7,7 +7,8 @@ class PomodoroTimer {
             workDuration: 25 * 60,
             breakDuration: 5 * 60,
             longBreakDuration: 15 * 60,
-            notificationsEnabled: true
+            notificationsEnabled: true,
+            rainSoundsEnabled: false
         };
 
         // Timer state
@@ -57,6 +58,8 @@ class PomodoroTimer {
 
         // Sound
         this.notificationSound = document.getElementById('notificationSound');
+        this.rainSound = document.getElementById('rainSound');
+        this.rainSoundToggle = document.getElementById('rainSoundToggle');
 
         // Theme
         this.themeToggle = document.getElementById('themeToggle');
@@ -75,6 +78,9 @@ class PomodoroTimer {
 
         this.settingsToggle.addEventListener('click', () => this.toggleSettings());
         this.saveSettingsBtn.addEventListener('click', () => this.saveSettings());
+
+        // Rain sound toggle
+        this.rainSoundToggle.addEventListener('change', () => this.toggleRainSound());
 
         // Theme events
         this.themeToggle.addEventListener('click', (e) => {
@@ -267,6 +273,7 @@ class PomodoroTimer {
         this.settings.breakDuration = parseInt(this.breakDurationInput.value) * 60;
         this.settings.longBreakDuration = parseInt(this.longBreakDurationInput.value) * 60;
         this.settings.notificationsEnabled = this.notificationsToggle.checked;
+        this.settings.rainSoundsEnabled = this.rainSoundToggle.checked;
 
         // Save to localStorage
         localStorage.setItem('pomodoroSettings', JSON.stringify(this.settings));
@@ -293,8 +300,42 @@ class PomodoroTimer {
         // Set initial mode
         document.body.classList.add('work-mode');
 
+        // Apply rain sound setting
+        if (this.rainSoundToggle) {
+            this.rainSoundToggle.checked = this.settings.rainSoundsEnabled || false;
+            if (this.settings.rainSoundsEnabled) {
+                this.playRainSound();
+            }
+        }
+
         // Load saved theme
         this.loadTheme();
+    }
+
+    // Rain sound methods
+    toggleRainSound() {
+        if (this.rainSoundToggle.checked) {
+            this.playRainSound();
+        } else {
+            this.stopRainSound();
+        }
+    }
+
+    playRainSound() {
+        if (this.rainSound && this.rainSound.src) {
+            this.rainSound.volume = 0.3; // Set volume to 30%
+            this.rainSound.play().catch(error => {
+                console.log('Rain sound playback failed:', error);
+                this.showTemporaryMessage('Rain sound file not found. Please add rain-sound.mp3 to your project folder.');
+            });
+        }
+    }
+
+    stopRainSound() {
+        if (this.rainSound) {
+            this.rainSound.pause();
+            this.rainSound.currentTime = 0;
+        }
     }
 
     // Theme methods
