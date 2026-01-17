@@ -206,35 +206,84 @@ body.theme-night .ambiance-layer::before {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(to top,
-        rgba(10, 10, 30, 0.9) 0%,
-        rgba(20, 20, 40, 0.7) 50%,
-        transparent 100%
-    );
+    left: 5%;
+    width: 90%;
+    height: 300px;
+    background:
+        /* Building 1 */
+        linear-gradient(to bottom, #0a0a1e 0%, #16213e 100%),
+        /* Building shapes */
+        linear-gradient(to top,
+            #0a0a1e 0px, #0a0a1e 150px, transparent 150px, transparent 100%
+        ),
+        linear-gradient(to top,
+            #16213e 0px, #16213e 120px, transparent 120px, transparent 100%
+        );
+    background-position:
+        0% 100%,
+        5% 100%,
+        15% 100%,
+        25% 100%,
+        35% 100%,
+        50% 100%,
+        65% 100%,
+        80% 100%;
+    background-size:
+        100% 100%,
+        8% 180px,
+        10% 140px,
+        12% 200px,
+        8% 120px,
+        15% 220px,
+        10% 160px,
+        8% 190px;
+    background-repeat: no-repeat;
     z-index: 1;
+    border-radius: 0;
+    /* Building outlines */
+    box-shadow:
+        50px -150px 0 10px rgba(10, 10, 30, 0.9),
+        150px -120px 0 15px rgba(16, 20, 40, 0.9),
+        280px -200px 0 20px rgba(12, 15, 35, 0.95),
+        380px -140px 0 12px rgba(14, 18, 38, 0.9),
+        520px -180px 0 25px rgba(10, 12, 32, 0.95),
+        680px -130px 0 18px rgba(16, 20, 40, 0.9),
+        820px -190px 0 16px rgba(12, 15, 35, 0.9);
 }
 
+/* City lights - windows */
 body.theme-night .ambiance-layer::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 10%;
-    width: 80%;
-    height: 35%;
-    background:
-        linear-gradient(to right, transparent 0%, transparent 5%, rgba(26, 26, 46, 0.9) 5%, rgba(26, 26, 46, 0.9) 8%, transparent 8%, transparent 12%, rgba(20, 20, 40, 0.95) 12%, rgba(20, 20, 40, 0.95) 18%, transparent 18%, transparent 22%, rgba(26, 26, 46, 0.9) 22%, rgba(26, 26, 46, 0.9) 26%, transparent 26%, transparent 30%, rgba(22, 22, 42, 0.9) 30%, rgba(22, 22, 42, 0.9) 38%, transparent 38%, transparent 42%, rgba(26, 26, 46, 0.9) 42%, rgba(26, 26, 46, 0.9) 45%, transparent 45%, transparent 50%, rgba(20, 20, 40, 0.95) 50%, rgba(20, 20, 40, 0.95) 56%, transparent 56%, transparent 60%, rgba(26, 26, 46, 0.9) 60%, rgba(26, 26, 46, 0.9) 65%, transparent 65%, transparent 70%, rgba(22, 22, 42, 0.9) 70%, rgba(22, 22, 42, 0.9) 75%, transparent 75%, transparent 80%, rgba(26, 26, 46, 0.9) 80%, rgba(26, 26, 46, 0.9) 83%, transparent 83%, transparent 88%, rgba(20, 20, 40, 0.95) 88%, rgba(20, 20, 40, 0.95) 95%, transparent 95%);
-    box-shadow:
-        inset 0 0 50px rgba(0, 212, 255, 0.1),
-        inset 0 0 20px rgba(255, 107, 157, 0.05);
-    animation: cityLights 3s ease-in-out infinite;
-    z-index: 1;
+    bottom: 60px;
+    left: 5%;
+    width: 90%;
+    height: 240px;
+    background-image:
+        /* Create grid of windows */
+        repeating-linear-gradient(90deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(0, 212, 255, 0.6) 8px,
+            rgba(0, 212, 255, 0.6) 10px,
+            transparent 10px,
+            transparent 18px
+        ),
+        repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 12px,
+            rgba(255, 193, 7, 0.5) 12px,
+            rgba(255, 193, 7, 0.5) 14px,
+            transparent 14px,
+            transparent 26px
+        );
+    opacity: 0.8;
+    animation: cityLights 4s ease-in-out infinite;
+    z-index: 2;
 }
 
 @keyframes cityLights {
-    0%, 100% { opacity: 0.9; }
+    0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
 }
 
@@ -307,13 +356,74 @@ body.theme-winter .ambiance-layer::after {
 body.theme-summer .ambiance-layer::before {
     content: '';
     position: absolute;
-    top: 10%;
-    right: 15%;
-    width: 150px;
-    height: 150px;
+    top: 8%;
+    right: 12%;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 152, 0, 0.3) 0%, transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
+    background:
+        radial-gradient(circle, rgba(255, 193, 7, 0.6) 0%, rgba(255, 152, 0, 0.4) 40%, transparent 70%);
+    box-shadow:
+        0 0 60px rgba(255, 193, 7, 0.5),
+        0 0 100px rgba(255, 152, 0, 0.3);
+    animation: sunPulse 4s ease-in-out infinite;
+}
+
+body.theme-summer .ambiance-layer::after {
+    content: '';
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 200px;
+    height: 200px;
+    background:
+        conic-gradient(
+            transparent 0deg,
+            rgba(255, 193, 7, 0.3) 10deg,
+            transparent 20deg,
+            transparent 40deg,
+            rgba(255, 193, 7, 0.3) 50deg,
+            transparent 60deg,
+            transparent 80deg,
+            rgba(255, 193, 7, 0.3) 90deg,
+            transparent 100deg,
+            transparent 120deg,
+            rgba(255, 193, 7, 0.3) 130deg,
+            transparent 140deg,
+            transparent 160deg,
+            rgba(255, 193, 7, 0.3) 170deg,
+            transparent 180deg,
+            transparent 200deg,
+            rgba(255, 193, 7, 0.3) 210deg,
+            transparent 220deg,
+            transparent 240deg,
+            rgba(255, 193, 7, 0.3) 250deg,
+            transparent 260deg,
+            transparent 280deg,
+            rgba(255, 193, 7, 0.3) 290deg,
+            transparent 300deg,
+            transparent 320deg,
+            rgba(255, 193, 7, 0.3) 330deg,
+            transparent 340deg
+        );
+    animation: rotateSun 20s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes sunPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateSun {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Fall - Falling leaves */
@@ -494,22 +604,28 @@ body.theme-fall .ambiance-layer::after {
     position: relative;
     width: 400px;
     height: 120px;
-    background: rgba(101, 84, 63, 0.6);
+    background: linear-gradient(135deg, rgba(139, 111, 71, 0.7) 0%, rgba(101, 84, 63, 0.8) 100%);
     border-radius: 10px 10px 0 0;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
     padding: var(--spacing-md);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    border-top: 2px solid rgba(199, 149, 109, 0.3);
 }
 
 .coffee-cup {
     position: relative;
     width: 60px;
     height: 70px;
-    background: linear-gradient(135deg, #c7956d 0%, #8b6f47 100%);
+    background: linear-gradient(135deg, #d4a574 0%, #a67c52 50%, #8b6f47 100%);
     border-radius: 0 0 30px 30px;
-    box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow:
+        inset 0 -5px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .coffee-cup::before {
@@ -519,9 +635,21 @@ body.theme-fall .ambiance-layer::after {
     right: -15px;
     width: 20px;
     height: 30px;
-    border: 3px solid #8b6f47;
+    border: 3px solid #a67c52;
     border-left: none;
     border-radius: 0 15px 15px 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.coffee-cup::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 40px;
+    height: 8px;
+    background: rgba(101, 67, 33, 0.6);
+    border-radius: 50% 50% 0 0;
 }
 
 .steam {
@@ -566,9 +694,13 @@ body.theme-fall .ambiance-layer::after {
 .plant {
     width: 50px;
     height: 80px;
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    background: linear-gradient(145deg, #4cd964 0%, #2ecc71 30%, #27ae60 70%, #229954 100%);
     border-radius: 50% 50% 0 0;
     position: relative;
+    box-shadow:
+        inset -3px 0 8px rgba(0, 0, 0, 0.2),
+        inset 3px 0 8px rgba(255, 255, 255, 0.1),
+        0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .plant::before {
@@ -577,16 +709,33 @@ body.theme-fall .ambiance-layer::after {
     bottom: -20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
-    height: 25px;
-    background: #c7956d;
-    border-radius: 0 0 10px 10px;
+    width: 35px;
+    height: 28px;
+    background: linear-gradient(135deg, #d4a574 0%, #c7956d 50%, #a67c52 100%);
+    border-radius: 0 0 12px 12px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.plant::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 15px;
+    height: 30px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+    border-radius: 50%;
 }
 
 .books {
     width: 70px;
     height: 60px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .books::before,
@@ -594,19 +743,42 @@ body.theme-fall .ambiance-layer::after {
     content: '';
     position: absolute;
     width: 60px;
-    height: 20px;
-    background: var(--highlight);
-    border-radius: 2px;
+    height: 22px;
+    border-radius: 2px 4px 2px 0;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .books::before {
     top: 0;
-    background: #e74c3c;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    transform: rotate(-2deg);
+    z-index: 2;
 }
 
 .books::after {
-    top: 22px;
-    background: #3498db;
+    top: 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    transform: rotate(1deg);
+    width: 65px;
+    z-index: 1;
+}
+
+.book-3 {
+    position: absolute;
+    top: 40px;
+    left: 5px;
+    width: 58px;
+    height: 20px;
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border-radius: 2px 4px 2px 0;
+    transform: rotate(-1deg);
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2),
+        2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .wall-clock {
@@ -668,7 +840,7 @@ body.theme-night .wall-clock::before {
     transform-origin: bottom center;
     background: #2d3436;
     border-radius: 10px 10px 0 0;
-    transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    will-change: transform;
 }
 
 body.theme-night .clock-hand {
