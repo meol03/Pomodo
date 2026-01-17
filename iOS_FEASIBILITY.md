@@ -2,7 +2,36 @@
 
 ## Executive Summary
 
-**Verdict: Highly Feasible** - Converting Pomodo to an iOS app is technically straightforward due to its simple architecture, zero external dependencies, and well-defined feature set. Multiple implementation paths exist, each with different trade-offs.
+**Verdict: Highly Feasible** - Converting Pomodo to an iOS app is technically straightforward due to its simple architecture, zero external dependencies, and well-defined feature set.
+
+**Updated Requirement:** The user requires **Live Activities** (Dynamic Island + Lock Screen widgets) and **Notifications**. This requirement **mandates a native SwiftUI implementation** as Live Activities are exclusively available through Apple's ActivityKit framework.
+
+---
+
+## Required Features Analysis
+
+### 1. Push/Local Notifications
+Standard iOS notifications for timer completion alerts.
+- **Availability:** All native approaches (SwiftUI, React Native, Capacitor, Flutter)
+- **Framework:** `UserNotifications` (UNUserNotificationCenter)
+
+### 2. Live Activities (Dynamic Island + Lock Screen)
+Real-time timer display in the Dynamic Island (iPhone 14 Pro+) and Lock Screen.
+
+| Aspect | Details |
+|--------|---------|
+| **Framework** | ActivityKit (iOS 16.1+) |
+| **UI Requirement** | Must be built with SwiftUI |
+| **Availability** | **Native Swift/SwiftUI ONLY** |
+| **Device Support** | Dynamic Island: iPhone 14 Pro+ / Lock Screen: All iOS 16.1+ |
+
+**Critical:** Live Activities **cannot** be implemented with:
+- PWA
+- Capacitor/Ionic
+- React Native (without native Swift module)
+- Flutter (without native Swift module)
+
+This makes **native SwiftUI the only viable option** for your requirements.
 
 ---
 
@@ -222,6 +251,8 @@ Build with Flutter for high-performance cross-platform support.
 | Haptic Feedback | ❌ | ✅ | ✅ | ✅ | Native only |
 | Widget Support | ❌ | ❌ | ⚠️ | ✅ | SwiftUI best |
 | Watch App | ❌ | ❌ | ❌ | ✅ | Native only |
+| **Live Activities** | ❌ | ❌ | ❌ | ✅ | **SwiftUI ONLY** |
+| **Dynamic Island** | ❌ | ❌ | ❌ | ✅ | **SwiftUI ONLY** |
 
 ---
 
@@ -258,32 +289,247 @@ UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound
 
 ## Recommended Approach
 
-### For Quick Launch: **Capacitor** (Option 2)
+### Required: **Native SwiftUI** (Option 4)
+
+Given your requirements for **Live Activities** and **Notifications**, SwiftUI is the **only viable option**.
 
 **Rationale:**
-1. Reuses existing codebase (90%+ code reuse)
-2. Fastest path to App Store (1-2 weeks)
-3. Native notifications solve critical limitation
-4. Acceptable performance for this app type
-5. Can always go native later if needed
+1. Live Activities require ActivityKit (SwiftUI-only)
+2. Dynamic Island requires native implementation
+3. Best performance and smallest app size
+4. Full access to all iOS features
+5. Future-proof for iOS updates
 
-**Implementation Roadmap:**
-1. Initialize Capacitor project
-2. Add iOS platform
-3. Install required plugins (notifications, haptics, preferences)
-4. Update `app.js` to detect Capacitor and use native APIs
-5. Add iOS safe area CSS
-6. Test on iOS simulator
-7. Test on physical device
-8. Submit to App Store
+---
 
-### For Best Long-term: **SwiftUI** (Option 4)
+## Live Activities Implementation Guide
 
-**Rationale:**
-1. Best performance and smallest size
-2. Access to all iOS features (Widgets, Watch app)
-3. Future-proof for iOS updates
-4. Clean separation from web codebase
+### What Are Live Activities?
+
+Live Activities display real-time information from your app in two places:
+1. **Dynamic Island** (iPhone 14 Pro and later) - The pill-shaped area at the top
+2. **Lock Screen** (iOS 16.1+ devices) - A widget-like banner
+
+For Pomodo, this means showing the timer countdown in both locations even when the app is backgrounded.
+
+### Architecture Overview
+
+```
+Pomodo App
+├── Main App Target (SwiftUI)
+│   ├── PomodoroTimer (business logic)
+│   ├── ContentView (main UI)
+│   └── NotificationManager
+│
+└── Widget Extension Target
+    ├── PomodoLiveActivity (ActivityKit)
+    ├── PomodoActivityAttributes (data model)
+    └── Live Activity Views
+        ├── LockScreenView
+        ├── DynamicIslandCompact
+        ├── DynamicIslandExpanded
+        └── DynamicIslandMinimal
+```
+
+### Code Implementation
+
+#### 1. Define Activity Attributes
+```swift
+import ActivityKit
+
+struct PomodoActivityAttributes: ActivityAttributes {
+    // Static data (doesn't change during activity)
+    let sessionType: String  // "Work" or "Break"
+    let theme: String
+
+    // Dynamic data (updates in real-time)
+    struct ContentState: Codable, Hashable {
+        let timeRemaining: Int  // seconds
+        let endTime: Date
+        let sessionNumber: Int
+        let isRunning: Bool
+    }
+}
+```
+
+#### 2. Lock Screen View
+```swift
+struct PomodoLockScreenView: View {
+    let context: ActivityViewContext<PomodoActivityAttributes>
+
+    var body: some View {
+        HStack {
+            // Tomato icon
+            Image(systemName: "leaf.circle.fill")
+                .foregroundColor(.red)
+                .font(.title)
+
+            VStack(alignment: .leading) {
+                Text(context.attributes.sessionType)
+                    .font(.headline)
+                Text(timerInterval: context.state.endTime...Date(),
+                     countsDown: true)
+                    .font(.title2.monospacedDigit())
+                    .foregroundColor(.primary)
+            }
+
+            Spacer()
+
+            // Session dots
+            HStack(spacing: 4) {
+                ForEach(0..<4) { i in
+                    Circle()
+                        .fill(i < context.state.sessionNumber ? .red : .gray)
+                        .frame(width: 8, height: 8)
+                }
+            }
+        }
+        .padding()
+    }
+}
+```
+
+#### 3. Dynamic Island Views
+```swift
+struct PomodoLiveActivity: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: PomodoActivityAttributes.self) { context in
+            // Lock Screen view
+            PomodoLockScreenView(context: context)
+        } dynamicIsland: { context in
+            DynamicIsland {
+                // Expanded view (when long-pressed)
+                DynamicIslandExpandedRegion(.leading) {
+                    Image(systemName: "leaf.circle.fill")
+                        .foregroundColor(.red)
+                }
+                DynamicIslandExpandedRegion(.center) {
+                    Text(context.attributes.sessionType)
+                        .font(.headline)
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    Text(timerInterval: context.state.endTime...Date(),
+                         countsDown: true)
+                        .monospacedDigit()
+                }
+                DynamicIslandExpandedRegion(.bottom) {
+                    // Session progress dots
+                    HStack(spacing: 8) {
+                        ForEach(0..<4) { i in
+                            Circle()
+                                .fill(i < context.state.sessionNumber ? .red : .gray)
+                                .frame(width: 12, height: 12)
+                        }
+                    }
+                }
+            } compactLeading: {
+                // Compact left side
+                Image(systemName: "leaf.circle.fill")
+                    .foregroundColor(.red)
+            } compactTrailing: {
+                // Compact right side - countdown
+                Text(timerInterval: context.state.endTime...Date(),
+                     countsDown: true)
+                    .monospacedDigit()
+                    .frame(width: 50)
+            } minimal: {
+                // Minimal view (when other activities present)
+                Image(systemName: "leaf.circle.fill")
+                    .foregroundColor(.red)
+            }
+        }
+    }
+}
+```
+
+#### 4. Starting a Live Activity
+```swift
+class LiveActivityManager {
+    private var currentActivity: Activity<PomodoActivityAttributes>?
+
+    func startLiveActivity(sessionType: String, duration: Int, sessionNumber: Int) {
+        // Check if Live Activities are supported
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            print("Live Activities not enabled")
+            return
+        }
+
+        let attributes = PomodoActivityAttributes(
+            sessionType: sessionType,
+            theme: "cozy"
+        )
+
+        let endTime = Date().addingTimeInterval(TimeInterval(duration))
+
+        let state = PomodoActivityAttributes.ContentState(
+            timeRemaining: duration,
+            endTime: endTime,
+            sessionNumber: sessionNumber,
+            isRunning: true
+        )
+
+        do {
+            currentActivity = try Activity.request(
+                attributes: attributes,
+                content: .init(state: state, staleDate: endTime),
+                pushType: nil
+            )
+        } catch {
+            print("Error starting Live Activity: \(error)")
+        }
+    }
+
+    func updateLiveActivity(timeRemaining: Int, isRunning: Bool) {
+        guard let activity = currentActivity else { return }
+
+        let endTime = Date().addingTimeInterval(TimeInterval(timeRemaining))
+
+        let state = PomodoActivityAttributes.ContentState(
+            timeRemaining: timeRemaining,
+            endTime: endTime,
+            sessionNumber: activity.content.state.sessionNumber,
+            isRunning: isRunning
+        )
+
+        Task {
+            await activity.update(using: state)
+        }
+    }
+
+    func endLiveActivity() {
+        Task {
+            await currentActivity?.end(nil, dismissalPolicy: .immediate)
+            currentActivity = nil
+        }
+    }
+}
+```
+
+#### 5. Info.plist Configuration
+```xml
+<key>NSSupportsLiveActivities</key>
+<true/>
+```
+
+### Live Activity Limitations
+
+| Limitation | Details |
+|------------|---------|
+| Update frequency | Max ~1 update/second recommended |
+| Duration | Auto-ends after 8 hours (can extend to 12h) |
+| Data size | ContentState must be < 4KB |
+| Remote updates | Requires push notifications setup |
+| Battery | iOS manages aggressively to save battery |
+
+### Testing Live Activities
+
+1. **Simulator**: Works for basic testing (iOS 16.1+)
+2. **Physical Device**: Required for Dynamic Island testing
+3. **TestFlight**: Full testing with real users
+
+---
+
+## Updated Recommended Implementation
 
 ---
 
@@ -317,26 +563,70 @@ UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound
 
 ## Conclusion
 
-Converting Pomodo to an iOS app is **highly feasible** with multiple viable paths. The simple architecture, zero dependencies, and well-structured code make this an ideal candidate for mobile conversion.
+Converting Pomodo to an iOS app is **highly feasible**. The simple architecture and well-structured code make this an ideal candidate for mobile conversion.
 
-**Recommended starting point:** Capacitor wrapper for fastest time-to-market while retaining the beautiful existing UI and animations.
-
-**Future consideration:** Native SwiftUI rewrite if the app gains significant traction and iOS-specific features (widgets, Watch app) become desirable.
+**Required approach:** Native SwiftUI is mandatory due to the Live Activities requirement. This provides the best long-term foundation with access to all iOS features including Dynamic Island, Lock Screen widgets, notifications, and potential Watch app expansion.
 
 ---
 
-## Next Steps
+## Implementation Roadmap
 
-1. [ ] Decide on implementation approach
-2. [ ] Set up Apple Developer account
-3. [ ] Configure development environment
-4. [ ] Create iOS-specific assets (app icon, splash screen)
-5. [ ] Implement chosen solution
-6. [ ] Test on physical devices
-7. [ ] Submit to TestFlight for beta testing
-8. [ ] Submit to App Store
+### Phase 1: Project Setup
+1. [ ] Set up Apple Developer account ($99/year)
+2. [ ] Install Xcode (latest version)
+3. [ ] Create new SwiftUI project "Pomodo"
+4. [ ] Configure app icons and launch screen
+5. [ ] Set up Git repository structure
+
+### Phase 2: Core App Development
+1. [ ] Port timer logic from JavaScript to Swift
+2. [ ] Build main UI with SwiftUI
+3. [ ] Implement theme system (start with 2-3 themes)
+4. [ ] Add settings persistence with UserDefaults
+5. [ ] Implement local notifications
+
+### Phase 3: Live Activities
+1. [ ] Add Widget Extension target
+2. [ ] Define ActivityAttributes model
+3. [ ] Build Lock Screen view
+4. [ ] Build Dynamic Island views (compact, expanded, minimal)
+5. [ ] Implement LiveActivityManager
+6. [ ] Test on physical device with Dynamic Island
+
+### Phase 4: Polish & Launch
+1. [ ] Add haptic feedback
+2. [ ] Implement all 6 themes
+3. [ ] Add study room animations (optional, can simplify for v1)
+4. [ ] TestFlight beta testing
+5. [ ] App Store submission
+
+---
+
+## Required Tools & Accounts
+
+| Item | Cost | Notes |
+|------|------|-------|
+| macOS computer | Required | Cannot develop iOS apps on Windows/Linux |
+| Xcode | Free | Download from Mac App Store |
+| Apple Developer Account | $99/year | Required for App Store & TestFlight |
+| iPhone (physical device) | Recommended | Required for Dynamic Island testing |
+
+---
+
+## Skills Required
+
+- **Swift**: Core programming language
+- **SwiftUI**: UI framework (declarative, React-like)
+- **ActivityKit**: Live Activities framework
+- **UserNotifications**: Notification scheduling
+
+### Learning Resources
+- [Apple's SwiftUI Tutorials](https://developer.apple.com/tutorials/swiftui)
+- [ActivityKit Documentation](https://developer.apple.com/documentation/activitykit)
+- [Hacking with Swift](https://www.hackingwithswift.com)
 
 ---
 
 *Document generated: January 2026*
 *Project: Pomodo v1.1*
+*Updated: Live Activities requirement added*
