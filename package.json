@@ -1,0 +1,16 @@
+{
+  "name": "pomodo",
+  "version": "1.0.0",
+  "description": "Lo-Fi Study Timer with Pomodoro Technique",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "keywords": ["pomodoro", "timer", "study", "productivity"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
