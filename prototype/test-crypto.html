@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PKCE Crypto Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #f5f6fa;
+    }
+    .test-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 { color: #e74c3c; }
+    h2 { color: #2c3e50; margin-top: 0; }
+    button {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    button:hover { background: #c0392b; }
+    .result {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    .success { color: #27ae60; font-weight: bold; }
+    .label { font-weight: bold; color: #555; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🔐 PKCE Crypto Function Test</h1>
+  <p>Test the cryptographic functions used for Spotify authentication (no API calls)</p>
+
+  <div class="test-card">
+    <h2>Test 1: Generate Code Verifier</h2>
+    <p>Creates a cryptographically secure random string (64 bytes, base64url encoded)</p>
+    <button onclick="testVerifier()">Generate Verifier</button>
+    <div id="verifier-result"></div>
+  </div>
+
+  <div class="test-card">
+    <h2>Test 2: Generate Code Challenge</h2>
+    <p>Creates SHA-256 hash of verifier (what gets sent to Spotify)</p>
+    <button onclick="testChallenge()">Generate Challenge</button>
+    <div id="challenge-result"></div>
+  </div>
+
+  <div class="test-card">
+    <h2>Test 3: Full PKCE Flow (Simulated)</h2>
+    <p>Simulates the complete auth flow without actually calling Spotify</p>
+    <button onclick="testFullFlow()">Run Full Flow</button>
+    <div id="flow-result"></div>
+  </div>
+
+  <div class="test-card">
+    <h2>Test 4: localStorage Persistence</h2>
+    <p>Test saving and loading data (used for tokens and settings)</p>
+    <button onclick="testStorage()">Test Storage</button>
+    <div id="storage-result"></div>
+  </div>
+
+  <script src="js/spotify-auth.js"></script>
+  <script>
+    function testVerifier() {
+      const result = document.getElementById('verifier-result');
+      result.innerHTML = '<div class="label">Generating...</div>';
+
+      try {
+        const verifier = SpotifyAuth.generateCodeVerifier();
+        result.innerHTML = `
+          <div class="label">✓ Success!</div>
+          <div class="label">Length: ${verifier.length} characters</div>
+          <div class="result">${verifier}</div>
+          <div class="label">Valid: ${verifier.length >= 43 && verifier.length <= 128 ? '✓ YES' : '✗ NO'}</div>
+        `;
+      } catch (error) {
+        result.innerHTML = `<div style="color: red;">✗ Error: ${error.message}</div>`;
+      }
+    }
+
+    async function testChallenge() {
+      const result = document.getElementById('challenge-result');
+      result.innerHTML = '<div class="label">Generating...</div>';
+
+      try {
+        const verifier = SpotifyAuth.generateCodeVerifier();
+        const challenge = await SpotifyAuth.generateCodeChallenge(verifier);
+
+        result.innerHTML = `
+          <div class="label">✓ Success!</div>
+          <div class="label">Original Verifier:</div>
+          <div class="result">${verifier}</div>
+          <div class="label">SHA-256 Challenge (base64url):</div>
+          <div class="result">${challenge}</div>
+          <div class="label">Challenge Length: ${challenge.length} characters</div>
+        `;
+      } catch (error) {
+        result.innerHTML = `<div style="color: red;">✗ Error: ${error.message}</div>`;
+      }
+    }
+
+    async function testFullFlow() {
+      const result = document.getElementById('flow-result');
+      result.innerHTML = '<div class="label">Running flow...</div>';
+
+      try {
+        // Step 1: Generate verifier
+        const verifier = SpotifyAuth.generateCodeVerifier();
+
+        // Step 2: Generate challenge
+        const challenge = await SpotifyAuth.generateCodeChallenge(verifier);
+
+        // Step 3: Generate state
+        const state = SpotifyAuth.generateRandomString(16);
+
+        // Step 4: Build auth URL (don't actually redirect)
+        const params = new URLSearchParams({
+          client_id: 'test_client_id',
+          response_type: 'code',
+          redirect_uri: 'http://localhost:8000/callback.html',
+          scope: 'user-read-playback-state user-modify-playback-state',
+          code_challenge_method: 'S256',
+          code_challenge: challenge,
+          state: state
+        });
+
+        const authUrl = `https://accounts.spotify.com/authorize?${params.toString()}`;
+
+        result.innerHTML = `
+          <div class="success">✓ Full PKCE flow completed!</div>
+
+          <div class="label">Step 1: Code Verifier Generated</div>
+          <div class="result">${verifier}</div>
+
+          <div class="label">Step 2: Code Challenge Created (SHA-256)</div>
+          <div class="result">${challenge}</div>
+
+          <div class="label">Step 3: State Generated (CSRF protection)</div>
+          <div class="result">${state}</div>
+
+          <div class="label">Step 4: Authorization URL Built</div>
+          <div class="result">${authUrl}</div>
+
+          <div class="label">Next Step (when Spotify is available):</div>
+          <div>User would be redirected to this URL, authorize the app, and Spotify would redirect back with a code that we exchange for tokens using the verifier.</div>
+        `;
+      } catch (error) {
+        result.innerHTML = `<div style="color: red;">✗ Error: ${error.message}</div>`;
+      }
+    }
+
+    function testStorage() {
+      const result = document.getElementById('storage-result');
+      result.innerHTML = '<div class="label">Testing...</div>';
+
+      try {
+        // Test write
+        const testData = {
+          timestamp: Date.now(),
+          test: 'Hello from Pomodo!',
+          number: Math.random()
+        };
+
+        localStorage.setItem('pomodo_test', JSON.stringify(testData));
+
+        // Test read
+        const retrieved = JSON.parse(localStorage.getItem('pomodo_test'));
+
+        // Test exists
+        const exists = localStorage.getItem('pomodo_test') !== null;
+
+        // Clean up
+        localStorage.removeItem('pomodo_test');
+
+        result.innerHTML = `
+          <div class="success">✓ localStorage working!</div>
+
+          <div class="label">Written Data:</div>
+          <div class="result">${JSON.stringify(testData, null, 2)}</div>
+
+          <div class="label">Retrieved Data:</div>
+          <div class="result">${JSON.stringify(retrieved, null, 2)}</div>
+
+          <div class="label">Match: ${JSON.stringify(testData) === JSON.stringify(retrieved) ? '✓ YES' : '✗ NO'}</div>
+
+          <div class="label">Cleanup: ✓ Test data removed</div>
+        `;
+      } catch (error) {
+        result.innerHTML = `<div style="color: red;">✗ Error: ${error.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
